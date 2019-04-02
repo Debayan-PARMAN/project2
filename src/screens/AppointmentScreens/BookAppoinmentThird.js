@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateState } from '../../actions/user';
-import { View, Image, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Button, } from 'react-native';
-import { LoginStyles, FontStyles,} from '../../styelsheets/MainStyle';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, AppRegistry } from 'react-native';
 import { CardStyle } from '../../styelsheets/CardStyle';
 import Status_Indicator from '../../components/StatusIndicator.1';
 import { updateState as userUpdateState } from '../../actions/doctors';
@@ -13,13 +12,17 @@ import BookAppointmentStyle from '../../styelsheets/BookAppointmentStyle';
 import { getDoctorDetails,} from '../../actions/doctors';
 import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
 import styleConstants from '../../constants/styleConstants';
+import Header_Blank from '../../components/Header/Header_Blank';
 import { LinearGradient } from 'expo';
 import en from '../../messages/en-us';
+import Footer from '../../components/Footer/Footer';
+import Moment from 'moment';
+
 
 class Book_Appoinment_Third extends Component {
 
     static navigationOptions = {
-        title: 'Book Appoinment',
+        title: 'BOOK APPOINTMENT',
         headerBackground: (
             <LinearGradient
                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -30,11 +33,11 @@ class Book_Appoinment_Third extends Component {
         ),
         headerTintColor: '#fff',
         headerTitleStyle: {
-            fontWeight: 'bold',
-            paddingLeft: 40,
-            //alignItems:'center',
-
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
         },
+        headerRight: (<Header_Blank />)
     };
 
     onValueChange = (value, id) => {
@@ -57,8 +60,10 @@ class Book_Appoinment_Third extends Component {
     render() {
         const { userDetails } = this.props.userState;
         const { doctorDetails, chamberDetails, AppointmentDetails } = this.props.doctorState;
+        const timeDetails = `${AppointmentDetails.appointmentDate}, ${Moment(AppointmentDetails.appointmentTime, "h:mm A").format("HH:mm")}`;
 
         return (
+            <View style={{flex:1}}>
             <View style={BookAppointmentStyle.mainWrapper}>
                 <KeyboardAvoidingView behavior="position">
                 <ScrollView>
@@ -74,7 +79,7 @@ class Book_Appoinment_Third extends Component {
                         </View>
 
                            <Text style={BookAppointmentStyle.HeaderText}>{en.doctorSearchLabel.locationLabel} - {chamberDetails.line1}, {chamberDetails.line2}</Text>
-                           <Text style={[BookAppointmentStyle.HeaderText,{marginTop:5}]}>{en.appointmentScreens.dateTimeLabel} - {AppointmentDetails.appointmentDate}, {AppointmentDetails.appointmentTime}</Text>
+                            <Text style={[BookAppointmentStyle.HeaderText, { marginTop: 5 }]}>{en.appointmentScreens.dateTimeLabel} - {timeDetails}</Text>
                         
                         <View style={BookAppointmentStyle.PatientFirstPart}>
                             <View style={[BookAppointmentStyle.PatientName,]}>                                 
@@ -127,7 +132,7 @@ class Book_Appoinment_Third extends Component {
                                     colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
                                     start={{ x: 0, y: 0 }}
                                     end={{ x: 1, y: 1 }} >
-                                    <Text style={[buttonStyle.primaryBtnText, {fontSize:14}]}>{en.appointmentScreens.confirmBtnLabel2}</Text>
+                                    <Text style={[buttonStyle.primaryBtnText, {fontSize:12}]}>{en.appointmentScreens.confirmBtnLabel2}</Text>
                                 </LinearGradient>
                             </TouchableOpacity>                         
                         </View>
@@ -135,6 +140,9 @@ class Book_Appoinment_Third extends Component {
                    
                     </ScrollView> 
                     </KeyboardAvoidingView>
+                    
+            </View>
+            <Footer navigation={this.props.navigation} />
             </View>
         );
     }
@@ -154,6 +162,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
     ...bindActionCreators({ updateState, userUpdateState, docUpdateState, getDoctorDetails,}, dispatch)
 });
+
+AppRegistry.registerComponent('project1', () => Book_Appoinment_Third);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Book_Appoinment_Third);
 

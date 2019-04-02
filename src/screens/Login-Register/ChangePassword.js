@@ -3,24 +3,33 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { resetPassword, updateState } from '../../actions/user';
-import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
-import ButtonComponent from '../../components/Button/ButtonComponent';
-import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, showPassword } from 'react-native';
 import en from '../../messages/en-us';
+import { LinearGradient } from 'expo';
+import Header_Blank from '../../components/Header/Header_Blank';
+import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
+import PasswordComponent from '../../components/TextComponent/PasswordComponent';
+import styleConstants from '../../constants/styleConstants';
+import Footer from '../../components/Footer/Footer';
 
 class ChangePassword extends Component {
     static navigationOptions = {
-        title: 'ChangePassword',
-        headerStyle: {
-            backgroundColor: '#572a6f',
-        },
+        title: 'CHANGE PASSWORD',
+        headerBackground: (
+            <LinearGradient
+                colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
+                style={{ flex: 1, }}
+                start={[0, 0]}
+                end={[1, 1]}
+            />
+        ),
         headerTintColor: '#fff',
         headerTitleStyle: {
-            // fontWeight: 'bold',
-            paddingLeft: 30,
-            //justifyContent: 'center',
-            //alignItems: 'center',
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
         },
+        headerRight: (<Header_Blank />)
     };   
     onValueChange = (value, id) => {
         const { userDetails } = this.props.userState;
@@ -40,38 +49,40 @@ class ChangePassword extends Component {
 
     }
     render() {   
-        const { userDetails } = this.props.userState;
-
-        const changePasswordButton = (<ButtonComponent buttonLabel={en.commonLabel.submitLabel}
-            buttonFunction={() => this.onSubmit()}
-            buttonType='type1'
-            buttonStyle={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle1]}
-            buttonTextStyle={[buttonStyle.primaryBtnText]} />);
-        
+         const { userDetails } = this.props.userState;           
+            
         return (
-            <View style={{ flex: 1,}}>
-                <ScrollView>
-                    <View style={{ flex: 1,marginTop:5, height:30,justifyContent:'center',alignItems:'center'}}>
-                        <Text style={{ fontSize: 16, }}>{en.loginLabels.changePasswordLabel}</Text>
-                    </View>                    
-                   
+            <View style={{flex:1}}>
+            
+            <ScrollView>                                      
+             <View style={{ flex:1,marginTop:15,padding:8}}>                  
 
-                    <View style={{ height: 80,padding:4,marginTop:5}}>
-                        <Text style={{ marginLeft: 5, fontSize: 15 }}>{en.loginLabels.newPasswordLabel}</Text>
-                        <TextInput
-                            style={{ height: 45, borderColor: 'grey',padding:5,borderBottomWidth:1,}}
-                            placeholder="************"
+                        <PasswordComponent
+                            style={textInputStyle.primaryTextInput}
+                            labelStyle={textInputStyle.primaryTextInputFontStyle}
+                            label='Password'
+                            secureTextEntry={showPassword}
                             value={userDetails.password}
                             onChangeText={(e) => this.onValueChange(e, 'password')}
                         />
-                    </View>  
+            </View>  
 
-                    <View style={{ flex: 1, height: 40, marginTop: 15, justifyContent: 'center',alignItems: 'center', }}>
-                        {changePasswordButton}                
-                    </View>                                                 
+              <View style={{ flex: 1, height: 40, marginTop: 15, justifyContent: 'center',alignItems: 'center', }}>
+                         
+                        <TouchableOpacity onPress={this.onSubmit}>
+                            <LinearGradient
+                                style={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle1,]}
+                                colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
+                                start={{ x: 0, y: 0 }}
+                                end={{ x: 1, y: 1 }} >
+                                <Text style={[buttonStyle.primaryBtnText]}>{en.commonLabel.submitLabel}</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>                     
+                       </View>                                                             
                                  
-                </ScrollView>                  
-            </View>           
+                       </ScrollView>  
+                <Footer navigation={this.props.navigation} />             
+            </View>
         ); 
       }
 };

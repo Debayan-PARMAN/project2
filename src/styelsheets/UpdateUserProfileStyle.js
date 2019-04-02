@@ -110,15 +110,15 @@ export default UpdateUserProfileStyle = StyleSheet.create({
         flexDirection: 'row',
     },
     userNameFirstArea: {
-        flex: 0.7, height: 100,
+        flex: 0.7, height: 75,
     },
     userNameLastArea: {
-        flex: 0.3, height: 100, borderWidth: 1, borderRadius:3, borderColor: '#972493',
+        flex: 0.3, height: 75, justifyContent:'center',
     }, 
     profileImageArea:
-    { width: 95,
-      height: 95,
-      margin: 2.4 
+    { width: 55,
+      height: 55,
+      margin: 5
     },
     datearea:{
      flex: 1, 

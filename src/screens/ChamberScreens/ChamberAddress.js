@@ -12,10 +12,12 @@ import ChamberStyle from '../../styelsheets/ChamberStyle';
 import Drop_Down from '../../components/DropDown';
 import en from '../../messages/en-us';
 import ButtonComponent from '../../components/Button/ButtonComponent';
+import Header_Blank from '../../components/Header/Header_Blank';
+import Footer from '../../components/Footer/Footer';
 
 class ChamberAddress extends Component {
     static navigationOptions = {
-        title: 'ChamberAddress',       
+        title: 'CHAMBER ADDRESS',       
         headerBackground: (
             <LinearGradient
                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -24,10 +26,14 @@ class ChamberAddress extends Component {
                 end={[1, 1]}
             />),
         headerTintColor: '#fff',
-        headerTitleStyle: {          
-            paddingLeft: 50,            
+        headerTitleStyle: {
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
+
         },
-    };  
+        headerRight: (<Header_Blank />)
+    };
 
     onSubmit = () => { 
         console.log('U submitted the form');
@@ -164,7 +170,7 @@ class ChamberAddress extends Component {
             </View>
         );
 
-        return (          
+        return ( <View style ={{flex:1}}>         
                 <KeyboardAvoidingView style={ChamberStyle.mainWrapper} behavior="position">
                 <ScrollView>             
                     {chamberNameArea}
@@ -177,6 +183,8 @@ class ChamberAddress extends Component {
                     {ChamberBtn} 
                 </ScrollView>
             </KeyboardAvoidingView>
+            <Footer navigation={this.props.navigation} />
+            </View>
         );
     }
 };

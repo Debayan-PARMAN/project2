@@ -3,21 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateState, getDoctorDetails } from '../../actions/doctors';
-import { View, Image, Text, Alert, TouchableOpacity, TextInput, ScrollView} from 'react-native';
+import { View, Image, Text,  TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 import UpdateUserProfileStyle from '../../styelsheets/UpdateUserProfileStyle';
-import { KeyboardAvoidingView } from 'react-native';
-import DatePicker from 'react-native-datepicker';
 import imageConstantURI from '../../../src/constants/imageConst';
 import { LinearGradient } from 'expo';
-import Drop_Down from '../../components/DropDown';
 import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
 import styleConstants from '../../constants/styleConstants';
-import { TextInputStyles } from '../../styelsheets/TextInputStyle';
+import Header_Blank from '../../components/Header/Header_Blank';
+import Footer from '../../components/Footer/Footer';
 
 class Update_User_Profile extends Component {
 
     static navigationOptions = {
-        title: 'DoctorProfile',
+        title: 'DOCTOR PROFILE',
         headerBackground: (
             <LinearGradient
                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -27,10 +25,13 @@ class Update_User_Profile extends Component {
             />
         ),       
         headerTintColor: '#fff',
-        headerTitleStyle: {            
-            paddingLeft: 30,
-            
+        headerTitleStyle: {
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
+
         },
+        headerRight: (<Header_Blank />)
     };
 
     onValueChange = (value, id) => {
@@ -65,25 +66,12 @@ class Update_User_Profile extends Component {
     render() {
 
         const {doctorDetails} = this.props.doctorState;
-        const { bloodGroupOptions } = this.props.common;
-        // console.log("doctorDetails", doctorDetails);
+       // console.log("doctorDetails", doctorDetails);
 
-        const userProfileTabs = (<View style={UpdateUserProfileStyle.userProfileTabs}>
-            <View style={UpdateUserProfileStyle.userProfileInnerTabs}>
-                <View style={UpdateUserProfileStyle.userProfileInnerFirstTabs} >
-                    <Text style={UpdateUserProfileStyle.tabText}>{en.userScreensLabel.personalTabLabel}</Text>
-                </View>
-                <View style={UpdateUserProfileStyle.userProfileInnerSecondTabs} >
-                    <Text style={UpdateUserProfileStyle.userProfileInnerSecondTabsText}>{en.userScreensLabel.medicalTabLabel}</Text>
-                </View>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('LifeStyle')} >
-                <View style={UpdateUserProfileStyle.userProfileInnerLastTabs} >
-                    <Text style={UpdateUserProfileStyle.userProfileInnerSecondTabsText}>{en.userScreensLabel.lifestyleTabLabel}</Text>
-                </View>
-                </TouchableOpacity>
-              </View> 
-            </View>
-        );
+        const specializationList = doctorDetails.doctorSpecializationList.map(item => item.specialization).join(', ');
+        const subspecializationList = doctorDetails.doctorSpecializationList.map(item => item.subSpecialization).join(',');
+        const qualificationList = doctorDetails.doctorQualificationList.map(item => item.qualification).join(',');
+        const qualificationInstitute = doctorDetails.doctorQualificationList.map(item => item.institute).join(',');
 
         const doctorDetailsArea = (<View style={UpdateUserProfileStyle.userNameArea} >
             <View style={UpdateUserProfileStyle.userNameFirstArea} >
@@ -96,217 +84,145 @@ class Update_User_Profile extends Component {
                     source={imageConstantURI.doctorImage.src} />
             </View>
         </View>);
-
-        let dobArea = '';
-        if(!doctorDetails.fieldsEditable){
-            dobArea = (<View>
-                <Text style={TextInputStyles.font}>{en.userScreensLabel.dateOfBirthLabel}</Text>
-                <TextInput editable={doctorDetails.fieldsEditable} style={TextInputStyles.textInputfield}
-                onChangeText={(e) => this.onValueChange(e, 'age')}
-                    value={doctorDetails.dateOfBirth} />
-        </View>);
-        }
-         else {
-            dobArea = (<View style={UpdateUserProfileStyle.datearea}>
-                <Text>Date of Birth</Text>                             
-                <DatePicker
-                    style={{ width: 200 }}
-                    date={doctorDetails.dateOfBirth}
-                    mode="date"
-                    placeholder="select date"
-                    format="YYYY-MM-DD"
-                    minDate="1960-01-01"
-                    maxDate="2020-12-31"
-                    confirmBtnText="Confirm"
-                    cancelBtnText="Cancel"
-                    customStyles={{
-                        dateIcon: {
-                            position: 'absolute',
-                            left: 0,
-                            top: 4,
-                            marginLeft: 10,
-                            marginRight: 10,
-                        },
-                        dateInput: {
-                            marginLeft: 46,
-                        }
-                        // ... You can check the source to find the other keys.
-                    }}
-                    placeholder="dateofBirth"
-                    onDateChange={(date) => { this.onValueChange(date, 'dateOfBirth') }}
-                />
-            </View>);
-        }
-
-        const row = (<View style={UpdateUserProfileStyle.bloodheightweight}>
-            <View style={UpdateUserProfileStyle.bloodgroup} >
-                <Text style={UpdateUserProfileStyle.bloodgrouptext}>{en.userScreensLabel.bloodGroupLabel}</Text>
-                {
-                    !doctorDetails.fieldsEditable ?
-                    <TextInput editable={doctorDetails.fieldsEditable}
-                        value={doctorDetails.bloodGroup}
-                        style={UpdateUserProfileStyle.textInput}
-                        placeholder="bloodGroup"
-                        onChangeText={(e) => this.onValueChange(e, 'bloodGroup')}
-                        value={doctorDetails.bloodGroup}
-                    />
-                    :
-                    <Drop_Down
-                        selectedData='bloodGroup'
-                        selectedValue={doctorDetails.bloodGroup}
-                        options={bloodGroupOptions}
-                        onValueChange={this.onValueChange}
-                        optionId='attributePk'
-                        optionLabel='displayValue'
-                        optionValue='attributeValue' />
-                }
-            </View>
-
-            <View style={UpdateUserProfileStyle.heightWeightArea} >
-                <Text style={TextInputStyles.font}>{en.userScreensLabel.heightLabel}</Text>
-                <TextInput editable={doctorDetails.fieldsEditable}
-                    style={TextInputStyles.textInputfield}
-                    placeholder="Height"
-                    keyboardType="numeric"
-                    onChangeText={(e) => this.onValueChange(e, 'height')}
-                    value={doctorDetails.height} 
-                    />
-            </View>
-
-            <View style={UpdateUserProfileStyle.heightWeightArea} >
-                <Text style={TextInputStyles.font}>{en.userScreensLabel.weightLabel}</Text>
-                <TextInput editable={doctorDetails.fieldsEditable}
-                    style={TextInputStyles.textInputfield}
-                    placeholder="Weight"
-                    keyboardType="numeric"
-                    onChangeText={(e) => this.onValueChange(e, 'weight')}
-                    value={doctorDetails.weight} />
-            </View>
-        </View>);
+       
+       
        
         const row1 = (<View style={{ flex: 1, height: 60, marginTop: 5, flexDirection: 'row', justifyContent: 'space-between', }}>
-            <View style={{ flex: 0.50, height: 60, }} >
-                    <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.secondaryTextInputFontStyle}>Registration Number</Text>
+            <View style={{ flex: 0.45, }} >
+                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.primaryTextInputFontStyle}>Registration Number</Text>
                 <TextInput editable={doctorDetails.fieldsEditable}
-                   style={textInputStyle.secondaryTextInput}
+                   style={textInputStyle.primaryTextInput}
                    // placeholder="Registration Number"
                     onChangeText={(e) => this.onValueChange(e, 'registrationNo')}
                     value={doctorDetails.registrationNo} />
             </View>
-            <View style={{ flex: 0.50, height: 60, marginLeft: 10}} >
-                    <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.secondaryTextInputFontStyle}>Years of Experience</Text>
+            <View style={{ flex: 0.45,}} >
+                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.primaryTextInputFontStyle}>Years of Experience</Text>
                    <TextInput editable={doctorDetails.fieldsEditable}
-                    style={textInputStyle.secondaryTextInput}
+                    style={textInputStyle.primaryTextInput}
                    // placeholder="0"
-                    keyboardType="numeric"
+                   // keyboardType="numeric"
                     onChangeText={(e) => this.onValueChange(e, 'yearsOfExperience')}
                     value={doctorDetails.yearsOfExperience} />
             </View>
         </View>);
-        const row2 = (<View style={{ flex: 1, height: 60, marginTop: 5, flexDirection: 'row', justifyContent: 'space-between', }}>
-            <View style={{ flex: 0.5, height: 60, }} >
-                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.secondaryTextInputFontStyle}>Specialization</Text>
+        const row2 = (         
+                <View style={{ flex: 1,  }} >
+                <View style={{ marginTop: 4, }} >       
+                    <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.primaryTextInputFontStyle}>Specialization</Text>
+                    <TextInput style={textInputStyle.primaryTextInput}  
+                   value= {specializationList} >
+                    </TextInput>
+                    </View>          
+                <View style={{marginTop: 4,}} > 
+                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.primaryTextInputFontStyle}>Sub Specialization</Text>
                 <TextInput editable={doctorDetails.fieldsEditable}
-                    style={textInputStyle.secondaryTextInput}
-                    placeholder="Specialization"
-                    onChangeText={(e) => this.onValueChange(e, 'gender')}
-                    value={doctorDetails.gender} />
-            </View>
-            <View style={{ flex: 0.5, height: 60, marginLeft: 10 }} >
-                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.secondaryTextInputFontStyle}> </Text>
-                <TextInput editable={doctorDetails.fieldsEditable}
-                    style={textInputStyle.secondaryTextInput}
-                    placeholder="Sub Specialization"
+                    style={textInputStyle.primaryTextInput}
+                   // placeholder="Sub Specialization"
                     onChangeText={(e) => this.onValueChange(e, 'maritialStatus')}
-                    value={doctorDetails.maritialStatus} />
-            </View>
+                    value={subspecializationList} />
+                     </View>           
         </View>);
-        const row3 = (<View style={{ flex: 1, height: 60, marginTop: 5, flexDirection: 'row', justifyContent: 'space-between',}}>
-            <View style={{ flex: 0.30, height: 60, }} >
-                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.secondaryTextInputFontStyle}>Qualification</Text>
+        const row3 = (
+            <View style={{ flex: 1,}} >
+                 <View style={{marginTop: 4,}} >
+                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.primaryTextInputFontStyle}>Qualification</Text>
                 <TextInput editable={doctorDetails.fieldsEditable}
-                    style={textInputStyle.secondaryTextInput}
-                    placeholder="Qualification"
-                    onChangeText={(e) => this.onValueChange(e, 'gender')}
-                    value={doctorDetails.gender} />
+                    style={textInputStyle.primaryTextInput}
+                   // placeholder="Qualification"
+                    onChangeText={(e) => this.onValueChange(e, 'Qualification')}
+                    value={qualificationList} />
             </View>
-            <View style={{ flex: 0.30, height: 60, }} >
-                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.secondaryTextInputFontStyle}> </Text>
+            <View style={{marginTop: 4,}} >
+                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.primaryTextInputFontStyle}>Year</Text>
                 <TextInput editable={doctorDetails.fieldsEditable}
-                    style={textInputStyle.secondaryTextInput}
-                    placeholder="Year"
-                    onChangeText={(e) => this.onValueChange(e, 'maritialStatus')}
+                    style={textInputStyle.primaryTextInput}
+                   // placeholder="Year"
+                    onChangeText={(e) => this.onValueChange(e, 'Year')}
                     value={doctorDetails.maritialStatus} />
             </View>
-            <View style={{ flex: 0.30, height: 60, }} >
-                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.secondaryTextInputFontStyle}> </Text>
+             <View style={{marginTop: 4,}} > 
+                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.primaryTextInputFontStyle}>Institute</Text>
                 <TextInput editable={doctorDetails.fieldsEditable}
-                    style={textInputStyle.secondaryTextInput}
-                    placeholder="Institute"
-                    onChangeText={(e) => this.onValueChange(e, 'maritialStatus')}
-                    value={doctorDetails.maritialStatus} />
+                    style={textInputStyle.primaryTextInput}
+                    //placeholder="Institute"
+                    onChangeText={(e) => this.onValueChange(e, 'Institute')}
+                    value={qualificationInstitute} />
             </View>
         </View>);
         const row4 = (<View style={{ flex: 1, height: 60, marginTop: 5, flexDirection: 'row', justifyContent: 'space-between', }}>
             <View style={{ flex: 0.5, height: 60, }} >
-                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.secondaryTextInputFontStyle}>DOB</Text>
+                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.primaryTextInputFontStyle}>DOB</Text>
                 <TextInput editable={doctorDetails.fieldsEditable}
-                    style={textInputStyle.secondaryTextInput}
-                    placeholder="DD-MM-YYYY"
+                    style={textInputStyle.primaryTextInput}
+                   // placeholder="DD-MM-YYYY"
                     onChangeText={(e) => this.onValueChange(e, 'dateOfBirth')}
                     value={doctorDetails.dateOfBirth} />
             </View>
-            <View style={{ flex: 0.5, height: 60, marginLeft: 10 }} >
-                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.secondaryTextInputFontStyle}>Alternate Number 1 </Text>
+            <View style={{ flex: 0.5, height: 50, marginLeft: 10 }} >
+                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.primaryTextInputFontStyle}>Alternate Number 1 </Text>
                 <TextInput editable={doctorDetails.fieldsEditable}
-                    style={textInputStyle.secondaryTextInput}
-                    placeholder="+91"
-                    onChangeText={(e) => this.onValueChange(e, 'maritialStatus')}
+                    style={textInputStyle.primaryTextInput}
+                    //placeholder="+91"
+                    onChangeText={(e) => this.onValueChange(e, 'mobileNo2')}
                     value={doctorDetails.mobileNo2} />
             </View>
         </View>);
         const row5 = (<View style={{ flex: 1, height: 60, marginTop: 5, flexDirection: 'row', justifyContent: 'space-between', }}>
             <View style={{ flex: 0.5, height: 60, }} >
-                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.secondaryTextInputFontStyle}>Alternate Number 2</Text>
+                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.primaryTextInputFontStyle}>Alternate Number 2</Text>
                 <TextInput editable={doctorDetails.fieldsEditable}
-                    style={textInputStyle.secondaryTextInput}
-                    placeholder="+91"
-                    onChangeText={(e) => this.onValueChange(e, 'gender')}
+                    style={textInputStyle.primaryTextInput}
+                   // placeholder="+91"
+                    onChangeText={(e) => this.onValueChange(e, 'mobileNo3')}
                     value={doctorDetails.mobileNo3} />
             </View>
             <View style={{ flex: 0.5, height: 60, marginLeft: 10 }} >
-                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.secondaryTextInputFontStyle}>LandLine</Text>
+                <Text editable={doctorDetails.fieldsEditable} style={textInputStyle.primaryTextInputFontStyle}>LandLine</Text>
                 <TextInput editable={doctorDetails.fieldsEditable}
-                    style={textInputStyle.secondaryTextInput}
+                    style={textInputStyle.primaryTextInput}
                    // placeholder="Sub Specialization"
-                    onChangeText={(e) => this.onValueChange(e, 'maritialStatus')}
-                    value={doctorDetails.maritialStatus} />
+                    onChangeText={(e) => this.onValueChange(e, 'LandLine')}
+                    value={doctorDetails.LandLine} />
             </View>
         </View>);
         const addressArea = (
-            <View style={{ flex: 1}} >
-                <Text style={UpdateUserProfileStyle.address}>{en.userScreensLabel.addressLabel}</Text>
+            <View style={{ flex: 1,marginTop:15}} >
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Address')} >
+                    <View style={AddAddressStyle.AddnewAreaContainer}>
+                        <View style={[AddAddressStyle.Container1,{borderColor:'#ccc'}]}>
+                            <Text style={AddAddressStyle.AddressTypeText}>My Addresses</Text>
+                        </View>
+                        <View style={[AddAddressStyle.Container2,{borderColor:'#ccc'}]}>
+
+                            <Image style={[AddAddressStyle.ImageView, { padding: 6 }]}
+                                source={imageConstantURI.rightArrow.src} />
+
+                        </View>
+                    </View>
+                </TouchableOpacity >
+                {/* <Text style={UpdateUserProfileStyle.address}>{en.userScreensLabel.addressLabel}</Text>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Address')} >
 
                     <View style={UpdateUserProfileStyle.addaddress}>
-                        {doctorDetails.doctorAddressList.length > 0 ? 
-                            <Text style={UpdateUserProfileStyle.doctorDetailsText}>{en.userScreensLabel.addressFoundText}.... {doctorDetails.doctorAddressList.length}</Text>
+                    {userDetails.addressList.length > 0 ? 
+                            <Text style={UpdateUserProfileStyle.addaddressText}>{en.userScreensLabel.addressFoundText}.... {userDetails.addressList.length}</Text>
                         :   
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('Address')} >
-                            <View style={{ flex: 1, flexDirection: 'row', }}>
+                            <View style={{ flex: 1,flexDirection: 'row', }}>
                                 <View style={UpdateUserProfileStyle.addaddresslogoContainer} >
                             <Image style={UpdateUserProfileStyle.addaddresslogo}
                                           source={imageConstantURI.add.src} />
                            </View>
-                             <View style={{ width: 90, height: 40, }} >
-                                        <Text style={[UpdateUserProfileStyle.doctorDetailsText,{marginTop:12}]}>{en.userScreensLabel.addAddressLabel}</Text>
-                             </View>
+                           
+                                    <Text style={[UpdateUserProfileStyle.addaddressText, { marginTop: 12,}]}>{en.userScreensLabel.addAddressLabel}</Text>
+                           
                            </View>
                         </TouchableOpacity>
                     } 
                       
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         );
        
@@ -346,10 +262,9 @@ class Update_User_Profile extends Component {
            
         </View>
         );        
-        return (
-            <View style={UpdateUserProfileStyle.mainWrapper}>               
-                    <ScrollView>
-                       
+        return (<View style={{ flex: 1 }}>                      
+                <ScrollView style={UpdateUserProfileStyle.mainWrapper}> 
+                      <KeyboardAvoidingView behavior="position">
                             {/* <View style={UpdateUserProfileStyle.health}>
                                 <Text style={UpdateUserProfileStyle.healthText}>{en.userScreensLabel.healthProfileHeading}</Text>
                             </View> */}
@@ -364,9 +279,11 @@ class Update_User_Profile extends Component {
                                 {row5}
                                 {addressArea}                            
                             {buttonArea}
-                       
-                    </ScrollView>               
-            </View>
+                    </KeyboardAvoidingView>   
+                    </ScrollView>                     
+                <Footer navigation={this.props.navigation} />
+            </View>              
+           
         );
     }
 };

@@ -1,13 +1,17 @@
 export default styleConstants = {
   fontStyles: {
-    // fontFamily: 'OpenSansRegular',
+    fontFamily: 'Roboto',
     bodyFontSize1: 15,
     bodyFontSize2: 14,
     bodyFontSize3: 13,
     bodyFontSize4: 12,
     bodyFontSize5: 11,
     fontColor:'#4d4d4d',
+    fontColor1: '#93278f',
+    fontColor2: '#808080',
+    fontColor3: '#ad4274',   
     fontWeight:'bold',
+    textAlign:'center',
     textDecorationLine: 'underline',
     headerGroup: {
       headerColor: '#972493',
@@ -21,6 +25,8 @@ export default styleConstants = {
     fontColor: '#212529',   
     primaryGradientColor: '#a25ca8',
     secondaryGradientColor: '#582491',
+    activeColor: '#93278f',
+    inActiveColor: '#ccc',
   },
   backgroundStyles:{
     bgColor: '#fff',    

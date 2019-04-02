@@ -7,11 +7,12 @@ import { View, Image, Text, Alert, TouchableOpacity, TextInput, ScrollView, Touc
 import { LoginStyles, FontStyles, Button_fb_google, } from '../../styelsheets/MainStyle';
 import imageConstantURI from '../../constants/imageConst';
 import { LinearGradient } from 'expo';
+import Header_Blank from '../../components/Header/Header_Blank';
 import { TextInputStyles } from '../../styelsheets/TextInputStyle';
-import { buttonStyle } from '../../styelsheets/CommonStyle';
+import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
 import styleConstants from '../../constants/styleConstants';
-import ButtonComponent from '../../components/Button/ButtonComponent';
 import en from '../../messages/en-us';
+import Footer from '../../components/Footer/Footer';
 
 class Registration extends Component {
 
@@ -27,10 +28,11 @@ class Registration extends Component {
     ),   
     headerTintColor: '#fff',
     headerTitleStyle: {
-      fontWeight: 'bold',
-      paddingLeft: 30,
-      //alignItems:'center',
+      textAlign: "center",
+      justifyContent: 'space-around',
+      flex: 1
     },
+    headerRight: (<Header_Blank />)
   };
 
   onValueChange = (value, id) => {
@@ -39,143 +41,112 @@ class Registration extends Component {
     this.props.updateState({ userDetails });
   }
 
-  // checkData = (commonData) => {
-  //   if (commonData.length === 10 && commonData.test(/d/g)){
-  //     this.setState({ contactNo: commonData });
-  //     return true;
-  //   } else {
-  //     this.setState({ emailAddress: commonData });
-  //     return false;
-  //   }
-  // }
+  
 
   onCancelAlert = () => {
     this.props.updateState({ responseTriggerred: false });
     // this.props.navigation.navigate('Home');
   }
 
-  onSubmit = () => {
-    //console.log('Registration Button triggered');
-    const {userDetails} = this.props.userState;
-    const regex = /[0-9]/g;
-
-    if (!(regex.test(userDetails.contactNo) && userDetails.contactNo.length === 10)){
-      Alert.alert(
-        '',
-        message='Provide a valid number',
-        [{
-          text: 'Cancel',
-          onPress: this.onCancelAlert,
-          style: 'cancel'
-        }], {
-          cancelable: false
-        }
-      );
-    }
-    else {
-      this.props.numberCheckRegistration(this.props.navigation.navigate)
-      //   // this.props.navigation.navigate('VerifyMobileMumber');
-      // } else {
-      //   Alert.alert(
-      //     '',
-      //     message = 'Number1 already exists',
-      //     [{
-      //       text: 'Cancel',
-      //       onPress: this.onCancelAlert,
-      //       style: 'cancel'
-      //     }], {
-      //       cancelable: false
-      //     }
-      //   );
-      // }
-    }
-  }
+ onSubmit = () => {
+//console.log('Registration Button triggered');
+const {userDetails} = this.props.userState;
+//const regex = /[0-9]/g;
+const regex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+if (!(regex.test(userDetails.contactNo))) {
+Alert.alert(
+'',
+message='Provide a valid number',
+[{
+text: 'Cancel',
+onPress: this.onCancelAlert,
+style: 'cancel'
+}], {
+cancelable: false
+}
+);
+}
+else {
+this.props.numberCheckRegistration(this.props.navigation.navigate)
+}
+}
   render() {
     const { userDetails } = this.props.userState;
-
-    const nextButton = (<ButtonComponent buttonLabel={en.commonLabel.nextBtnLabel}
-      buttonFunction={() => this.onSubmit()}
-      buttonType='type1'
-      buttonStyle={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle1]}
-      buttonTextStyle={[buttonStyle.primaryBtnText]} />);
-
-    const faceBookButton = (
-      <ButtonComponent buttonLabel={en.loginLabels.facebookLabel}
-        buttonFunction={() => console.log('Login with facebook')}
-        buttonType='type4'
-        buttonStyle={[Button_fb_google.second_container, Button_fb_google.third_container, LoginStyles.toggleButton_Sub_Container_Row1]}
-        buttonImageSRC={imageConstantURI.facebook.src}
-        buttonImageStyle={Button_fb_google.image}
-        buttonTextStyle={[FontStyles.font, { color: 'white' }]} />
-    );
-
-    const googleButton = (
-      <ButtonComponent buttonLabel={en.loginLabels.googleLabel}
-        buttonFunction={() => console.log('Login with google')}
-        buttonType='type4'
-        buttonStyle={[Button_fb_google.second_container, Button_fb_google.third_container, LoginStyles.toggleButton_Sub_Container_Row1]}
-        buttonImageSRC={imageConstantURI.google.src}
-        buttonImageStyle={Button_fb_google.image}
-        buttonTextStyle={[FontStyles.font, { color: 'white' }]} />
-    );
-
-    const signInPasswordButton = (<ButtonComponent buttonLabel={en.commonLabel.signInBtn}
-      buttonFunction={() => this.props.navigation.navigate('Login')}
-      buttonType='type1'
-      buttonStyle={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle1]}
-      buttonTextStyle={[buttonStyle.primaryBtnText]} />);
-
-    const mobileDataArea = (<View style={LoginStyles.textInput}>
-      <Text style={TextInputStyles.font}>{en.loginLabels.mobileNumberLabel}</Text>
-      <TextInput
-        style={TextInputStyles.textInputfield}
-        placeholder="Type your Mobile Number"
-        value={userDetails.contactNo}
-        maxLength={10}
-        keyboardType="numeric"
-        onChangeText={(e) => this.onValueChange(e, 'contactNo')} />
-    </View>);
-
+   
     return (
       <View style={LoginStyles.mainWrapper}>
         <ScrollView>
-          
-          {mobileDataArea}
-                    
-          <View style={{ height: 30 }}></View>
-
-          <View style={LoginStyles.button}>
-            
-            <View style={{ flex: 0.7, }}></View>
-
-            <View style={{ flex: 1, }}>{nextButton}</View>
-            
-            <View style={{ flex: 0.7, }}></View>
-
-          </View>
-          
-          <View style={{ height: 25 }}></View>
-
-          <View style={LoginStyles.bannerArea2_Text}>
+          {/* <View style={LoginStyles.bannerArea2_Text}>
+            <Text style={FontStyles.font}>{en.commonLabel.createAccountBtn}</Text>
+          </View> */}
+          <View style={LoginStyles.textInput}>
+            <Text style={textInputStyle.primaryTextInputFontStyle}>{en.loginLabels.mobileNumberLabel}</Text>         
+            <TextInput
+              style={textInputStyle.primaryTextInput}
+              // placeholder="Enter your Mobile Number"
+              value={userDetails.contactNo}
+              maxLength={13}
+              // keyboardType="numeric"
+              onChangeText={(e) => this.onValueChange(e, 'contactNo')} />
+          </View>         
+          <View style={[LoginStyles.button, { marginTop: 20 }]}>          
+              <TouchableOpacity onPress={this.onSubmit}>
+              <LinearGradient
+                style={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle1]}
+                colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }} >                
+                  <Text style={[buttonStyle.primaryBtnText]}>{en.commonLabel.nextBtnLabel}</Text>               
+              </LinearGradient>
+            </TouchableOpacity>           
+          </View>         
+          <View style={[LoginStyles.bannerArea2_Text, { marginTop: 15 }]}>
             <Text style={FontStyles.font}>----------------------------------------- {en.commonLabel.orLabel} -----------------------------------------</Text>
+          </View>         
+          <View style={[Button_fb_google.first_container, { marginTop: 15 }]}>
+            <TouchableOpacity onPress={() => console.log('Login with facebook')}>
+              <View style={Button_fb_google.second_container}>
+                <View style={Button_fb_google.third_container}>
+                  <Image style={Button_fb_google.image}
+                    source={imageConstantURI.facebook.src}
+                  />
+                </View>
+                <View style={LoginStyles.toggleButton_Sub_Container_Row1}>
+                  <Text style={FontStyles.font} style={{ color: 'white' }}>{en.loginLabels.facebookLabel}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
           </View>
-          
-          <View style={{ height: 25 }}></View>
-
-          <View style={Button_fb_google.first_container}>{faceBookButton}</View>
-
-          <View style={Button_fb_google.first_container}>{googleButton}</View>
-
+          <View style={Button_fb_google.first_container}>
+            <TouchableOpacity onPress={() => console.log('Login with google')}>
+              <View style={Button_fb_google.second_container}>
+                <View style={Button_fb_google.third_container}>
+                  <Image style={Button_fb_google.image}
+                    source={imageConstantURI.google.src}
+                  />
+                </View>
+                <View style={LoginStyles.toggleButton_Sub_Container_Row1}>
+                  <Text style={FontStyles.font} style={{ color: 'white' }}>{en.loginLabels.googleLabel}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
           <View style={LoginStyles.forget_pass_view}>
             <Text style={FontStyles.font}>{en.createAccountMsg.createAccountpageInfo}</Text>
           </View>
-
-          <View style={LoginStyles.button}>           
-            <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }}>
-              {signInPasswordButton}
-            </View>            
+          <View style={LoginStyles.button}>          
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('Login')}>
+              <LinearGradient
+                style={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle1]}
+                colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }} >            
+                  <Text style={[buttonStyle.primaryBtnText]}> {en.loginLabels.signInLabel}</Text>                
+              </LinearGradient>
+            </TouchableHighlight>                      
           </View>
         </ScrollView>
+        <Footer navigation={this.props.navigation} />
       </View>
     );
   }

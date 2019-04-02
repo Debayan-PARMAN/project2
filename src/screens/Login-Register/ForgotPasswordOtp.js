@@ -2,24 +2,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { forgotPassword, updateState } from '../../actions/user';
-import ButtonComponent from '../../components/Button/ButtonComponent';
-import { View, Text, TextInput, ScrollView } from 'react-native';
-import { LoginStyles, FontStyles } from '../../styelsheets/MainStyle';
-import en from '../../messages/en-us';
+import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { LinearGradient } from 'expo';
 import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
+import styleConstants from '../../constants/styleConstants';
+import Header_Blank from '../../components/Header/Header_Blank';
+import { ForgotPasswordStyles, FontStyles, LoginStyles, } from '../../styelsheets/MainStyle';
+import en from '../../messages/en-us';
+import Footer from '../../components/Footer/Footer';
 
 class ForgotPasswordOtp extends Component {
     static navigationOptions = {
-        title: 'ForgotPassword',
-        headerStyle: {
-            backgroundColor: '#572a6f',
-        },
+        title: 'FORGOT PASSWORD',
+        headerBackground: (
+            <LinearGradient
+                colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
+                style={{ flex: 1, }}
+                start={[0, 0]}
+                end={[1, 1]}
+            />
+        ),
         headerTintColor: '#fff',
         headerTitleStyle: {
-            paddingLeft: 30,
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
         },
+        headerRight: (<Header_Blank />)
     };   
 
     onValueChange = (value, id) => {
@@ -45,68 +55,67 @@ class ForgotPasswordOtp extends Component {
     }
 
     render() {   
-        const { userDetails } = this.props.userState;
-
-        const resetPasswordButton = (<ButtonComponent buttonLabel={en.loginLabels.resetPasswordLabel}
-            buttonFunction={() => this.onSubmit()}
-            buttonType='type1'
-            buttonStyle={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle1]}
-            buttonTextStyle={[buttonStyle.primaryBtnText]} />);
-
-        const resendOTPButton = (<ButtonComponent buttonLabel={en.loginLabels.resendOTPLabel}
-            buttonFunction={() => this.onGetOtp()}
-            buttonType='type3'
-            buttonStyle={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle1]}
-            buttonTextStyle={[FontStyles.ForgetPasswordFont, LoginStyles.text_underline]} />);
-
+         const { userDetails } = this.props.userState;
+       
+        
         return (
-            <View style={{ flex: 1,}}>
-                <ScrollView>
-                <View style={{ flex: 1,marginTop:5, height:30,justifyContent:'center',alignItems:'center'}}>
-                    <Text style={{ fontSize: 15, }}>{en.loginLabels.forgotPasswordLabel}</Text>
-                </View>
+            <View style={{flex:1}}>
+            <View style={ForgotPasswordStyles.mainWrapper}>
+                <ScrollView>                                    
+                      
+                    <Text style={[textInputStyle.primaryTextInputFontStyle, { marginTop: 15 }]}>{en.loginLabels.mobileNumberLabel}</Text>
+                        <TextInput style={textInputStyle.primaryTextInput}
+                           // placeholder="Enter Number"
+                            value={userDetails.contactNo}
+                            maxLength={13}
+                           // keyboardType="numeric"
+                            onChangeText={(e) => this.onValueChange(e, 'contactNo')} 
+                        />         
+                   
+                    <Text style={[textInputStyle.primaryTextInputFontStyle, { marginTop: 15 }]}>{en.OTPMsg.OTPMsgInfo}</Text>
+                        <TextInput style={textInputStyle.primaryTextInput}
+                           // placeholder="Enter OTP"
+                            value={userDetails.userOTP}
+                            maxLength={6}
+                            keyboardType="numeric"
+                            onChangeText={(e) => this.onValueChange(e, 'userOTP')}
+                        />
+                   
                     
-                <View style={{ height: 80,padding:4,marginTop:5}}>
-                    <Text style={{ marginLeft: 5, fontSize: 15 }}>{en.loginLabels.mobileNumberLabel}</Text>
-                    <TextInput
-                        style={{ height: 45, borderColor: 'gray',padding:5,borderBottomWidth:1,}}
-                        placeholder="Enter Number"
-                        value={userDetails.contactNo}
-                        maxLength={10}
-                        keyboardType="numeric"
-                        onChangeText={(e) => this.onValueChange(e, 'contactNo')} 
-                    />
-                </View>
-                <View style={{ height: 80, padding: 4, marginTop: 5 }}>
-                    <Text style={{ marginLeft: 5, fontSize: 15 }}>{en.OTPMsg.OTPMsgInfo}</Text>
-                    <TextInput
-                        style={{ height: 45, borderColor: 'gray', padding: 5, borderBottomWidth: 1, }}
-                        placeholder="Enter OTP"
-                        value={userDetails.userOTP}
-                        maxLength={6}
-                        keyboardType="numeric"
-                        onChangeText={(e) => this.onValueChange(e, 'userOTP')}
-                    />
-                </View>
-                
-                <View style={{ flex: 1, height: 40, marginTop: 15, justifyContent: 'center',alignItems: 'center', }}>
-                    {resetPasswordButton}                      
-                </View> 
-                <View style={LoginStyles.forget_pass_view}>
-                    {resendOTPButton}
-                </View>                                                             
-                                    
-                </ScrollView>                  
-            </View>
-        );
-    }
+                    <View style={ForgotPasswordStyles.btnContainer}>
+                        <TouchableOpacity onPress={this.onSubmit}>
+                            <LinearGradient
+                                style={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle1,]}
+                                colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
+                                start={{ x: 0, y: 0 }}
+                                end={{ x: 1, y: 1 }} >
+                                <Text style={[buttonStyle.primaryBtnText]}> {en.loginLabels.resetPasswordLabel}</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
+                    </View>
+            
+                    <View style={LoginStyles.forget_pass_view}>
+                        <TouchableOpacity onPress={this.onResendOtp}>
+                            <Text style={FontStyles.ForgetPasswordFont}>{en.loginLabels.resendOTPLabel}</Text>
+                        </TouchableOpacity>
+                    </View>                                                             
+                   
+                    </ScrollView> 
+                               
+                               </View>
+                               <Footer navigation={this.props.navigation} />  
+                               </View>
+            
+        );   }
 };
 
 ForgotPasswordOtp.propTypes = {
     userDetails: PropTypes.object,
+    //commonState: PropTypes.object
 }
 const mapStateToProps = state => ({
     userState: state.userState,
+    //commonState: state.common
 });
 const mapDispatchToProps = (dispatch) => ({
     ...bindActionCreators({ updateState, forgotPassword }, dispatch)

@@ -12,10 +12,12 @@ import AddAddressStyle from '../../styelsheets/AddAddressStyle';
 import imageConstantURI from '../../constants/imageConst';
 // import Drop_Down from '../components/DropDown';
 import en from '../../messages/en-us';
+import Header_Blank from '../../components/Header/Header_Blank';
+import Footer from '../../components/Footer/Footer';
 
 class Address extends Component {
     static navigationOptions = {
-        title: 'Address Type',
+        title: 'MY ADDRESS',
         headerBackground: (
             <LinearGradient
                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -26,11 +28,12 @@ class Address extends Component {
         ),
         headerTintColor: '#fff',
         headerTitleStyle: {
-            // fontWeight: 'bold',
-            paddingLeft: 70,
-            //justifyContent: 'center',
-            //alignItems: 'center',
+            textAlign: "center",
+            justifyContent:'space-around', 
+            flex:1         
+
         },
+        headerRight: (<Header_Blank />)      
     };
 
     openSelectedAddress = (id) => {
@@ -91,7 +94,7 @@ class Address extends Component {
                 </View>
             </TouchableOpacity >);     
 
-        return (
+        return (<View style = {{flex:1}}>
             <View style={AddAddressStyle.mainWrapper}>
                   <ScrollView>                                          
                         <View style={AddAddressStyle.AddressType}>
@@ -100,9 +103,11 @@ class Address extends Component {
                         {addressTypeArea}
                         {/* {officeArea}
                         {othersArea} */}
-                        {addnewaddressArea}                    
+                        {addnewaddressArea}                  
                                          
                    </ScrollView>                  
+                  </View>
+             <Footer navigation={this.props.navigation} />
             </View>
         );
     }

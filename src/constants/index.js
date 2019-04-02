@@ -43,6 +43,8 @@ export const URI = {
   // --------------For Doctor Details---------------------
   getDoctorDetails: `${URI_PREFIX}/v1/doctor/fetch-doctor-info/`,
 
+  findDoctorbyId: `${URI_PREFIX}/v1/doctor/find-doctor-by-id/`,
+
   // ---------------For Update Appointment Details -------------
   updateApponitmentDetails: `${URI_PREFIX}/v1/doctor/save-doctor-appointment`, // NOT SURE ABOUT THIS API //
 

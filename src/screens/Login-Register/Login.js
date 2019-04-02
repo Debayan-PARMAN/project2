@@ -7,7 +7,7 @@ import { userLogin, checkNoExits, updateState, otpLogin, numberCheck } from '../
 import { View, Text, Alert, TextInput, ScrollView } from 'react-native';
 import { LoginStyles, FontStyles, Button_fb_google } from '../../styelsheets/MainStyle';
 import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
-
+import Header_Blank from '../../components/Header/Header_Blank';
 import ToggleSwitch from 'toggle-switch-react-native';
 import ButtonComponent from '../../components/Button/ButtonComponent';
 import PasswordComponent from '../../components/TextComponent/PasswordComponent';
@@ -15,72 +15,134 @@ import styleConstants from '../../constants/styleConstants';
 import { LinearGradient } from 'expo';
 import en from '../../messages/en-us';
 import imageConstantURI from '../../constants/imageConst';
+import Footer from '../../components/Footer/Footer';
 
 class LogIn extends Component {
     static navigationOptions = {
         title: 'MEMBER SIGNIN',
         headerBackground: (
-      <LinearGradient
-        colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
-        style={{ flex: 1,}}
-        start={[0,0]}
-        end={[1,1]}
-      />
-    ),   
+            <LinearGradient
+                colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
+                style={{ flex: 1, }}
+                start={[0, 0]}
+                end={[1, 1]}
+            />
+        ),
         headerTintColor: '#fff',
-        headerTitleStyle: {            
-            paddingLeft: 50,
+        headerTitleStyle: {
+            textAlign: "center",
+            justifyContent:'space-around', 
+            flex:1         
+
         },
-    };  
-    f
+        headerRight: (<Header_Blank />)      
+    };
+  
     onValueChange = (value, id) => {
         const { userDetails } = this.props.userState;
         userDetails[id] = value;
-        if (id === "contactNo"){
-            if((value.length-3) >= 10 ){
-                this.props.updateState({toggleEnable: true });
-                // this.props.updateState({ toggleEnable: true, otpToggle: true });
-            }
-            else{
-                this.props.updateState({ toggleEnable: false });
-                // this.props.updateState({ toggleEnable: false , otpToggle: false });
-                
-            }
-        }
+        // if (id === "contactNo") {
+        //     if ((value.length - 3) >= 10) {
+        //         this.props.updateState({ toggleEnable: true });
+        //         // this.props.updateState({ toggleEnable: true, otpToggle: true });
+        //     }
+        //     else {
+        //         this.props.updateState({ toggleEnable: false });
+        //         // this.props.updateState({ toggleEnable: false , otpToggle: false });
+
+        //     }
+        // }
         this.props.updateState({ userDetails });
     }
 
-    onNavigate =() => {
+    onNavigate = () => {
         this.props.navigation.navigate('Registration');
     }
 
     onTogglePass = (isOn) => {
-        const {toggleEnable} = this.props.userState;
-        if(toggleEnable){
+        // const { toggleEnable } = this.props.userState;
+        // if (toggleEnable) {
             const showPassword = !this.props.userState.showPassword;
             const otpToggle = !this.props.userState.otpToggle;
-            this.props.updateState({ showPassword, otpToggle});
-        }
-        else {
-            return ;
-        }
+            this.props.updateState({ showPassword, otpToggle });
+        // }
+        // else {
+            return;
+       // }
     }
 
-    onSubmit = () => {
-        this.props.userLogin();
-    }
+   onSubmit = () => {
+const { userDetails } = this.props.userState;
+const regex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+if (!(regex.test(userDetails.contactNo))) {
+Alert.alert(
+'',
+message = 'Provide a valid number',
+[{
+text: 'Cancel',
+onPress: this.onCancelAlert,
+style: 'cancel'
+}], {
+cancelable: false
+}
+);
+}
 
-    onGetOtp =()=> {
-        const { otpActions } = this.props.userState;
-        otpActions.otpSent = true;
-        this.props.updateState({ otpActions });
-        this.props.numberCheck();
-    }
+else {
+this.props.userLogin();
+}
+}
 
-    loginWithOtp = () => {
-        this.props.otpLogin();
-    }
+onGetOtp = () => {
+const { otpActions, userDetails } = this.props.userState;
+const regex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+if (!(regex.test(userDetails.contactNo))) {
+Alert.alert(
+'',
+message = 'Provide a valid number',
+[{
+text: 'Cancel',
+onPress: this.onCancelAlert,
+style: 'cancel'
+}], {
+cancelable: false
+}
+);
+}
 
+else {
+otpActions.otpSent = true;
+this.props.updateState({ otpActions });
+this.props.numberCheck();
+}
+}
+
+
+loginWithOtp = () => {
+
+const { userDetails } = this.props.userState;
+const regex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+if (!(regex.test(userDetails.contactNo))) {
+Alert.alert(
+'',
+message = 'Provide a valid number',
+[{
+text: 'Cancel',
+onPress: this.onCancelAlert,
+style: 'cancel'
+}], {
+cancelable: false
+}
+);
+}
+
+else {
+this.props.otpLogin();
+
+}
+
+//this.props.otpLogin();
+}
     onCancelAlert = () => {
         this.props.updateState({ responseTriggerred: false });
         if (this.props.userState.userDetails.token) {
@@ -90,39 +152,39 @@ class LogIn extends Component {
     }
 
     render() {
-        const { userDetails, showPassword, responseTriggerred, successMessage, failureMessage, otpToggle, toggleEnable, otpActions 
+        const { userDetails, showPassword, responseTriggerred, successMessage, failureMessage, otpToggle, toggleEnable, otpActions
         } = this.props.userState;
         
         const contactNumberArea = (<View style={LoginStyles.textInput}>
-                <Text style={textInputStyle.primaryTextInputFontStyle}>{en.loginLabels.mobileNumberLabel}</Text>
-                <TextInput
-                    style={textInputStyle.primaryTextInput}
-                    placeholder="Enter your Mobile Number"
-                    value={userDetails.contactNo}
-                    maxLength={13}
-                    // keyboardType="numeric"
-                    onChangeText={(e) => this.onValueChange(e, 'contactNo')} />
-            </View>);
+            <Text style={textInputStyle.primaryTextInputFontStyle}>{en.loginLabels.mobileNumberLabel}</Text>
+            <TextInput
+                style={textInputStyle.primaryTextInput}
+               // placeholder="Enter your Mobile Number"
+                value={userDetails.contactNo}
+                maxLength={13}
+                // keyboardType="numeric"
+                onChangeText={(e) => this.onValueChange(e, 'contactNo')} />
+        </View>);
 
         const passwordSection = (<View style={LoginStyles.textInput}>
-                <PasswordComponent
-                    style={textInputStyle.primaryTextInput}
-                    labelStyle={textInputStyle.primaryTextInputFontStyle}
-                    placeholder="Type your Password"
-                    secureTextEntry={showPassword}
-                    value={userDetails.password}
-                    onChangeText={(e) => this.onValueChange(e, 'password')}
-                />
-            </View>);
+            <PasswordComponent
+                style={textInputStyle.primaryTextInput}
+                labelStyle={textInputStyle.primaryTextInputFontStyle}
+                label='Password'
+                secureTextEntry={showPassword}
+                value={userDetails.password}
+                onChangeText={(e) => this.onValueChange(e, 'password')}
+            />
+        </View>);
 
         const otpSection = (<View style={LoginStyles.textInput}>
-                <Text style={textInputStyle.primaryTextInputFontStyle}>{en.OTPMsg.OTPMsgInfo}</Text>
-                <TextInput
-                    style={textInputStyle.primaryTextInput}
-                    placeholder="Type your OTP"
-                    value={userDetails.userOTP}
-                    onChangeText={(e) => this.onValueChange(e, 'userOTP')} />
-            </View>);
+            <Text style={textInputStyle.primaryTextInputFontStyle}>{en.OTPMsg.OTPMsgInfo}</Text>
+            <TextInput
+                style={textInputStyle.primaryTextInput}
+                //placeholder="Type your OTP"
+                value={userDetails.userOTP}
+                onChangeText={(e) => this.onValueChange(e, 'userOTP')} />
+        </View>);
 
         const signInPasswordButton = (<ButtonComponent buttonLabel={en.commonLabel.signInBtn}
             buttonFunction={() => this.onSubmit()}
@@ -178,7 +240,7 @@ class LogIn extends Component {
                 buttonStyle={[Button_fb_google.second_container, Button_fb_google.third_container, LoginStyles.toggleButton_Sub_Container_Row1]}
                 buttonImageSRC={imageConstantURI.google.src}
                 buttonImageStyle={Button_fb_google.image}
-                buttonTextStyle={[FontStyles.font, {color: 'white'}]} />
+                buttonTextStyle={[FontStyles.font, { color: 'white' }]} />
         );
 
 
@@ -217,7 +279,7 @@ class LogIn extends Component {
         );
 
         const passwordArea = (
-            <View style={{ flex: 1, justifyContent: 'center', alignItem: 'center'}}>      
+            <View style={{ flex: 1, justifyContent: 'center', alignItem: 'center' }}>
                 <View style={LoginStyles.forget_pass_view}>
                     {forgotPasswordButton}
                 </View>
@@ -241,10 +303,10 @@ class LogIn extends Component {
 
         }
 
-        
+
         return (
-            <ScrollView >
-                <View style={LoginStyles.mainWrapper}>
+            <View style={LoginStyles.mainWrapper}>
+                <ScrollView >
                     {contactNumberArea}
 
                     {showPassword ? passwordSection : otpSection}
@@ -256,23 +318,24 @@ class LogIn extends Component {
                         <View style={LoginStyles.toggleButton_Sub_Container}>
 
                             {showPassword ? signInPasswordButton : OTPsignInArea}
-                           
-                            
+
+
                         </View>
                         <View style={LoginStyles.toggleButtonContainer}>
                             {
-                                toggleEnable ? 
-                                <ToggleSwitch onColor='#d8c0ef' offColor='#d8c0ef' isOn={otpToggle} onToggle={(isOn) => this.onTogglePass(isOn)} />
-                                :
-                                <ToggleSwitch offColor='#eee' onToggle={this.onTogglePass}/>
+                             //   toggleEnable ?
+                                    <ToggleSwitch onColor='#d8c0ef' offColor='#d8c0ef' isOn={otpToggle} onToggle={(isOn) => this.onTogglePass(isOn)} />
+                                  //  :
+                            //  <ToggleSwitch offColor='#eee' onToggle={this.onTogglePass} />
                             }
                             <Text style={FontStyles.font}>{showPassword ? 'Use OTP' : 'Use Password'}</Text>
-                       </View>
+                        </View>
                     </View>
-                    
+
                     {showPassword ? passwordArea : otpArea}
-                </View>
-            </ScrollView>
+                    </ScrollView>
+                <Footer navigation={this.props.navigation} />
+            </View>
         );
     }
 }
@@ -286,7 +349,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    ...bindActionCreators({ userLogin, checkNoExits, numberCheck,  updateState, otpLogin }, dispatch)
+    ...bindActionCreators({ userLogin, checkNoExits, numberCheck, updateState, otpLogin }, dispatch)
 });
 
 

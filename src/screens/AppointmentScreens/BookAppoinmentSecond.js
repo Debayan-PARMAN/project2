@@ -3,23 +3,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateState} from '../../actions/user';
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView,Button } from 'react-native';
-import { LoginStyles, FontStyles,} from '../../styelsheets/MainStyle';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, AppRegistry} from 'react-native';
 import { CardStyle } from '../../styelsheets/CardStyle';
 import Status_Indicator from '../../components/StatusIndicator.1';
 import { updateState as userUpdateState } from '../../actions/doctors';
 import { updateState as docUpdateState } from '../../actions/doctors';
 import { getDoctorDetails,} from '../../actions/doctors';
+import Header_Blank from '../../components/Header/Header_Blank';
 import BookAppointmentStyle from '../../styelsheets/BookAppointmentStyle';
 import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
 import styleConstants from '../../constants/styleConstants';
 import en from '../../messages/en-us';
 import { LinearGradient } from 'expo';
+import Moment from 'moment';
+import Footer from '../../components/Footer/Footer';
 
 class Book_Appoinment_Second extends Component {
 
     static navigationOptions = {
-        title: 'Book Appoinment',       
+        title: 'BOOK APPOINTMENT',       
         headerBackground: (
             <LinearGradient
                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -30,11 +32,11 @@ class Book_Appoinment_Second extends Component {
         ),
         headerTintColor: '#fff',
         headerTitleStyle: {
-            fontWeight: 'bold',
-            paddingLeft: 40,
-            //alignItems:'center',
-
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
         },
+        headerRight: (<Header_Blank />)
     };
 
     onToggle = () => {
@@ -43,10 +45,12 @@ class Book_Appoinment_Second extends Component {
     
 
     render() {
-        //console.log(userDetails.username)
         const { doctorDetails, chamberDetails, AppointmentDetails } = this.props.doctorState;
         const { userDetails } = this.props.userState;
+        const timeDetails = `${AppointmentDetails.appointmentDate}, ${Moment(AppointmentDetails.appointmentTime, "h:mm A").format("HH:mm")}`;
+
         return (
+            <View style={{flex:1}}>
             <View style={BookAppointmentStyle.mainWrapper}>
                 <ScrollView>
                     <KeyboardAvoidingView behavior="position">
@@ -62,7 +66,9 @@ class Book_Appoinment_Second extends Component {
                        
                         <Text style={[CardStyle.name, {marginTop:4}]}>{en.doctorSearchLabel.locationLabel} - {chamberDetails.line1}, {chamberDetails.line2}</Text>
                          
-                        <Text style={[CardStyle.name, { marginTop: 4 }]}>{en.appointmentScreens.dateTimeLabel} - {AppointmentDetails.appointmentDate}, {AppointmentDetails.appointmentTime}</Text>
+                            <Text style={[CardStyle.name, { marginTop: 4 }]}>
+                                {en.appointmentScreens.dateTimeLabel} - {timeDetails}
+                            </Text>
                         
                       
                         <View style={BookAppointmentStyle.PatientFirstPart}>
@@ -136,13 +142,14 @@ class Book_Appoinment_Second extends Component {
                     </View>             
                 </KeyboardAvoidingView>
             </ScrollView>
+           
+        </View>
+        <Footer navigation={this.props.navigation} />
         </View>
         );
     }
     
 };
-
-
 
 Book_Appoinment_Second.propTypes = {
     doctorDetails: PropTypes.object,
@@ -158,6 +165,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
     ...bindActionCreators({ updateState, userUpdateState, docUpdateState, getDoctorDetails,}, dispatch)
 });
+AppRegistry.registerComponent('project1', () => Book_Appoinment_Second);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Book_Appoinment_Second);
 

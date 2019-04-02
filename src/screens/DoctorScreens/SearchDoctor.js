@@ -7,10 +7,12 @@ import { updateState as docUpdateState, getChamberSlots, findDoctors } from '../
 import ToggleSwitch from 'toggle-switch-react-native';
 import { SearchDoctorStyle } from '../../styelsheets/SearchDoctorStyle';
 import Search_Doctor_Card from '../../components/Card/SearchDoctorCard';
+import Header_Blank from '../../components/Header/Header_Blank';
 import { addGroup, getMyGroup, viewGroupMember, deleteGroupMember, searchMember } from '../../actions/group';
 import en from '../../messages/en-us';
 import { LinearGradient } from 'expo';
 import { textInputStyle } from '../../styelsheets/CommonStyle';
+import Footer from '../../components/Footer/Footer';
 
 class Search_Doctor extends Component {
 
@@ -35,11 +37,13 @@ class Search_Doctor extends Component {
             homeVisitFlag: '',
         };
         this.props.docUpdateState({ searchDetails });
+        const totalElements = ' ';
+        this.props.docUpdateState({ totalElements })
         // onPress = () =>{this.props.navigation.navigate('FindDoctor')}
     }
 
     static navigationOptions = {
-        title: 'Find Doctor',
+        title: 'FIND DOCTOR',
         headerBackground: (
             <LinearGradient
                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -50,13 +54,11 @@ class Search_Doctor extends Component {
         ),
         headerTintColor: '#fff',
         headerTitleStyle: {
-            fontWeight: 'bold',
-            //paddingLeft: 50,
             textAlign: "center",
-            justifyContent: 'center',
-            flex: 0.8,
-
-        }
+            justifyContent: 'space-around',
+            flex: 1
+        },
+        headerRight: (<Header_Blank />)
     };
     
     onToggle = () => {
@@ -119,7 +121,8 @@ class Search_Doctor extends Component {
 
         const hospitalList = (
             <View>
-                <TextInput  style={textInputStyle.primaryTextInput} placeholder="Hospitaltist" 
+                <TextInput  style={textInputStyle.primaryTextInput} 
+                //placeholder="Hospitaltist" 
                 value={searchDetails.hospitals} editable={false} />
             </View>
         );
@@ -174,6 +177,7 @@ class Search_Doctor extends Component {
                 <View style={SearchDoctorStyle.flex}>
                     {loading ? <Text>{en.commonLabel.loadingDataMsg}</Text> : doctorListArea}
                 </View>
+                <Footer navigation={this.props.navigation} />
             </View>
         );
     }

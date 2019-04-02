@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { verifyOTP, updateState } from '../../actions/user';
-import { View, Text, Alert, TextInput, ScrollView, TouchableOpacity } from 'react-native';
-import { LoginStyles, Space } from '../../styelsheets/MainStyle';
+import { View, Text, Alert, TextInput,ScrollView, TouchableOpacity, } from 'react-native';
+import { LinearGradient } from 'expo';
 import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
 import styleConstants from '../../constants/styleConstants';
-import { LinearGradient } from 'expo';
+import Header_Blank from '../../components/Header/Header_Blank';
+import { ForgotPasswordStyles, FontStyles, LoginStyles, Space } from '../../styelsheets/MainStyle';
 import en from '../../messages/en-us';
+import Footer from '../../components/Footer/Footer';
 
 class Verify_Mobile_Number extends Component {
     static navigationOptions = {
@@ -20,11 +22,14 @@ class Verify_Mobile_Number extends Component {
                 start={[0, 0]}
                 end={[1, 1]}
             />
-        ),   
+        ),
         headerTintColor: '#fff',
-        headerTitleStyle: {            
-            paddingLeft: 30,  
+        headerTitleStyle: {
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
         },
+        headerRight: (<Header_Blank />)
     };
     onValueChange = (value, id) => {
         const { userDetails } = this.props.userState;
@@ -71,35 +76,42 @@ class Verify_Mobile_Number extends Component {
 
         return (
             <View style={LoginStyles.mainWrapper}>
-                <ScrollView>                          
+                <ScrollView>
+                   
                     <View style={LoginStyles.textInput}>
-                        <Text style={textInputStyle.primaryTextInputFontStyle}>{en.verifyMobileNumberMsg.verifyMobileNumberMsgInfo} {userDetails.contactNo} </Text>          
+                        <Text style={textInputStyle.primaryTextInputFontStyle}>
+                           {en.verifyMobileNumberMsg.verifyMobileNumberMsgInfo} {userDetails.contactNo} </Text>
+                        
+                        
                         <TextInput
                             style={textInputStyle.primaryTextInput}
-                            placeholder="Type your OTP"
+                           // placeholder="Type your OTP"
                             value={userDetails.userOTP}
                             onChangeText={(e) => this.onValueChange(e, 'userOTP')}
                         />
-                    </View>           
-                      <View style={Space.space_30}></View>                                        
-                            <View style={LoginStyles.button}>                               
-                                <View style={{ flex: 1,justifyContent:'center',alignItems:'center'}}>
-                                    <TouchableOpacity
-                                        onPress={this.onSubmit}>
-                                        <LinearGradient
-                                            style={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle1]}
-                                            colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
-                                            start={{ x: 0, y: 0 }}
-                                            end={{ x: 1, y: 1 }} >
-                                            <Text style={[buttonStyle.primaryBtnText]}>{en.commonLabel.nextBtnLabel}</Text>
-                                        </LinearGradient>
-                                    </TouchableOpacity>
-                                </View>                              
-                            </View>
+                    </View>
+                    <View style={Space.space_20}>
+                    </View>
 
-                   
+                    
+                                <View style={LoginStyles.button}>                             
+
+                            <TouchableOpacity onPress={this.onSubmit}>
+                                <LinearGradient
+                                    style={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle1]}
+                                    colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 1 }} >
+                                    <Text style={[buttonStyle.primaryBtnText]}>{en.commonLabel.nextBtnLabel}</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>    
+                               
+          </View>
+
+                    
 
                 </ScrollView>
+                <Footer navigation={this.props.navigation} />
             </View>
         );
     }

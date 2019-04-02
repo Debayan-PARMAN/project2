@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { View, Image, Text, TouchableOpacity, ScrollView, TouchableHighlight } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, TouchableHighlight, AppRegistry } from 'react-native';
 import { LinearGradient } from 'expo';
 import Header_Home from '../../components/Header/Header_Menu';
 import { AppointmentConfirmationStyle } from '../../styelsheets/AppointmentConfirmationStyle';
@@ -14,6 +14,9 @@ import imageConstantURI from '../../constants/imageConst';
 import { buttonStyle } from '../../styelsheets/CommonStyle';
 import styleConstants from '../../constants/styleConstants';
 import en from '../../messages/en-us';
+import Moment from 'moment';
+import Header_Blank from '../../components/Header/Header_Blank';
+import Footer from '../../components/Footer/Footer';
 
 class Appointment_Confirmation extends Component {
     onHome = () => {
@@ -21,22 +24,32 @@ class Appointment_Confirmation extends Component {
     };
 
     static navigationOptions = {
-        title: 'Appointment Confirmation',
-        headerStyle: {
-            backgroundColor: '#572a6f',
-        },
+        title: 'BOOKING CONFIRMATION',
+        headerBackground: (
+            <LinearGradient
+                colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
+                style={{ flex: 1, }}
+                start={[0, 0]}
+                end={[1, 1]}
+            />
+        ),
         headerTintColor: '#fff',
         headerTitleStyle: {
-            paddingLeft: 7,
-            paddingRight: 10,           
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
         },
-        headerLeft: (<Header_Home onHome={this.onHome} />),
-    };   
-
+        headerRight: (<Header_Blank />),
+         headerLeft: (<Header_Home onHome={this.onHome} />)
+    };
+       
+   
 
     render() {
         const {chamberDetails, AppointmentDetails } = this.props.doctorState;
-        const { userDetails } = this.props.userState;
+        //const { userDetails } = this.props.userState;
+        
+        const timeDetails = `${Moment(AppointmentDetails.appointmentDate).format("DD-MM-YYYY")}, ${Moment(AppointmentDetails.appointmentTime, "h:mm A").format("HH:mm")}`;
         const heart_right = (
             <View style={AppointmentConfirmationStyle.heartImageContainer}>
                 <Image style={AppointmentConfirmationStyle.heartImageStyle}
@@ -107,8 +120,8 @@ class Appointment_Confirmation extends Component {
                         </View>
                         <View>
                             <Text style={AppointmentConfirmationStyle.text}>
-                                    {AppointmentDetails.appointmentDate}, {AppointmentDetails.appointmentTime }
-                                </Text>
+                                {timeDetails}
+                            </Text>
                         </View>
                     </View>
                     <View style={AppointmentConfirmationStyle.addressContainer}>
@@ -172,6 +185,7 @@ class Appointment_Confirmation extends Component {
 
 
         return (
+            <View style={{ flex: 1 }}>
             <View style={AppointmentConfirmationStyle.mainContainer}>
                 <ScrollView>
                     <View style={AppointmentConfirmationStyle.flex}>
@@ -196,8 +210,10 @@ class Appointment_Confirmation extends Component {
                     </View>
                     { body }
                    
-                </ScrollView>
-            </View>
+                </ScrollView>                
+               </View>
+                <Footer navigation={this.props.navigation} />
+            </View> 
         );
 
     }
@@ -217,5 +233,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
     ...bindActionCreators({ updateState, userUpdateState, docUpdateState, getDoctorDetails, }, dispatch)
 });
+
+AppRegistry.registerComponent('project1', () => Appointment_Confirmation);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Appointment_Confirmation);

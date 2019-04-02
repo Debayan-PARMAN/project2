@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import { updateState } from '../../actions/user';
-import { View, Image, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Button} from 'react-native';
-import { LoginStyles, FontStyles,} from '../../styelsheets/MainStyle';
+import { View, Image, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, AppRegistry} from 'react-native';
 import { CardStyle } from '../../styelsheets/CardStyle';
 import Status_Indicator from '../../components/StatusIndicator.2';
 import { RadioGroup, RadioButton } from 'react-native-flexi-radio-button';
@@ -15,13 +13,16 @@ import { getDoctorDetails, updateApponitmentDetails } from '../../actions/doctor
 import imageConstantURI from '../../constants/imageConst';
 import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
 import styleConstants from '../../constants/styleConstants';
+import Header_Blank from '../../components/Header/Header_Blank';
 import { LinearGradient } from 'expo';
 import en from '../../messages/en-us';
+import Footer from '../../components/Footer/Footer';
+import Moment from 'moment';
 
 class Payment_Details extends Component {
 
     static navigationOptions = {
-        title: 'PaymentDetails',
+        title: 'PAYMENT DETAILS',
         headerBackground: (
             <LinearGradient
                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -32,13 +33,11 @@ class Payment_Details extends Component {
         ),
         headerTintColor: '#fff',
         headerTitleStyle: {
-            fontWeight: 'bold',
-            flex:0.8,
-            textAlign:'center',
-            //paddingLeft: 40,
-            //alignItems:'center',
-
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
         },
+        headerRight: (<Header_Blank />)
     };
 
     onToggle = () => {
@@ -63,7 +62,7 @@ class Payment_Details extends Component {
     render() {
        
         const { doctorDetails, chamberDetails, AppointmentDetails } = this.props.doctorState;
-       
+        const timeDetails = `${AppointmentDetails.appointmentDate}, ${Moment(AppointmentDetails.appointmentTime, "h:mm A").format("HH:mm")}`;
         const doctorName = (
             <View style={CardStyle.mainContainer}>
                 <View style={CardStyle.flex}>
@@ -77,7 +76,7 @@ class Payment_Details extends Component {
 
         const chamberArea = (
             <View style={BookAppointmentStyle.chamberArea}>
-                <Text style={[BookAppointmentStyle.HeaderText, ]}>{chamberDetails.line1}, {chamberDetails.line2}, {AppointmentDetails.appointmentDate}, {AppointmentDetails.appointmentTime}</Text>
+                <Text style={[BookAppointmentStyle.HeaderText,]}>{chamberDetails.line1},{chamberDetails.line2},{timeDetails}</Text>
             </View>
         );
 
@@ -154,7 +153,7 @@ class Payment_Details extends Component {
                             source={imageConstantURI.rightArrow.src}
                         />            
             </View>
-        </TouchableOpacity >
+        </TouchableOpacity>
         );
 
         const netBankingArea = (
@@ -169,7 +168,7 @@ class Payment_Details extends Component {
                             source={imageConstantURI.rightArrow.src}
                         />
                 </View>
-           </TouchableOpacity >
+           </TouchableOpacity>
         );
 
         const morePaymentArea = (
@@ -205,13 +204,14 @@ class Payment_Details extends Component {
                             colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
                             start={{ x: 0, y: 0 }}
                             end={{ x: 1, y: 1 }} >
-                            <Text style={[buttonStyle.primaryBtnText, { fontSize: 14 }]}>{en.appointmentScreens.confirmProceedLabel}</Text>
+                            <Text style={[buttonStyle.primaryBtnText, { fontSize: 12 }]}>{en.appointmentScreens.confirmProceedLabel}</Text>
                         </LinearGradient>
                     </TouchableOpacity>
                 </View>           
         );
 
         return (
+            <View style={{flex:1}}>
             
             <View style={BookAppointmentStyle.mainWrapper}>
                 <ScrollView>
@@ -233,6 +233,9 @@ class Payment_Details extends Component {
                             { buttonArea }      
                     </KeyboardAvoidingView>
                 </ScrollView>
+
+            </View>
+            <Footer navigation={this.props.navigation} />
             </View>
         );
     }
@@ -252,6 +255,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
     ...bindActionCreators({ updateState, userUpdateState, docUpdateState, getDoctorDetails, updateApponitmentDetails }, dispatch)
 });
+
+AppRegistry.registerComponent('project1', () => Payment_Details);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Payment_Details);
 

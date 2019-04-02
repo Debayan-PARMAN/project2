@@ -120,7 +120,6 @@ export const ForgotPasswordStyles = StyleSheet.create({
 export const LoginStyles = StyleSheet.create({
   mainWrapper: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#fff',
   },
   bannerArea: {

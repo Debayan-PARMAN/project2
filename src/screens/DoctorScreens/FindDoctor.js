@@ -12,9 +12,10 @@ import Specialities from '../../screens/DoctorScreens/Specialities';
 import Hospitallist from '../../screens/DoctorScreens/Hospitallist';
 import {buttonStyle,textInputStyle } from '../../styelsheets/CommonStyle';
 import styleConstants from '../../constants/styleConstants';
+import Header_Blank from '../../components/Header/Header_Blank';
 import {LinearGradient } from 'expo';
 import  en from '../../messages/en-us';
-
+import Footer from '../../components/Footer/Footer';
 
 class Find_Doctor extends Component {
    
@@ -22,23 +23,22 @@ class Find_Doctor extends Component {
         title: 'FIND DOCTOR',
         headerBackground: (
             <LinearGradient
-                colors={['#a25ca8', '#582491'] }
-                style={{ flex: 1,  }}
-                start = { [0, 0.5]}
-                end = { [1, 0]}
-                
-        />
-  ),
-    headerTitleStyle: { 
-        color: '#fff',
-          
-        fontWeight: 'bold',
-      //paddingLeft: 50,
-      //justifyContent: 'center',
-       //alignItems: 'center',
-       marginLeft: 50,
-    },
-}
+                colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
+                style={{ flex: 1, }}
+                start={[0, 0]}
+                end={[1, 1]}
+            />
+        ),
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
+        },
+        headerRight: (<Header_Blank />)
+    };
+
+    
 
     onPressSpeicalityButton = () => {
         this.props.updateState({ selectedBTN: 'Specialities' });
@@ -59,26 +59,26 @@ class Find_Doctor extends Component {
     
     onSearchDetails = () => {
         // console.log('Search the data');
-        const { searchDetails } = this.props.doctorState;
-        if (searchDetails.name !== '' || searchDetails.pincode!== '' ) {
+        // const { searchDetails } = this.props.doctorState;
+        // if (searchDetails.name !== '' || searchDetails.pincode!== '' ) {
 
             this.props.findDoctors();
             this.props.navigation.navigate('SearchDoctor');
-        }
+        // }
 
-        else {
-            Alert.alert(
-                '',
-                message = 'Please Input Value',
-                [{
-                    text: 'Cancel',
-                    onPress: this.onCancelAlert,
-                    style: 'cancel'
-                }], {
-                    cancelable: false
-                }
-            );
-        }
+        // else {
+        //     Alert.alert(
+        //         '',
+        //         message = 'Please Input Value',
+        //         [{
+        //             text: 'Cancel',
+        //             onPress: this.onCancelAlert,
+        //             style: 'cancel'
+        //         }], {
+        //             cancelable: false
+        //         }
+        //     );
+        // }
     }
 
     onSpecialities = (value) => {
@@ -123,7 +123,7 @@ class Find_Doctor extends Component {
             <View style={ FindDoctorStyle.flex4 }>
                 <Text style={textInputStyle.primaryTextInputFontStyle}>{en.commonLabel.nameLabel}</Text>
                 <TextInput style={textInputStyle.primaryTextInput}
-                    placeholder="Name"
+                   // placeholder="Name"
                     value = {searchDetails.name }
                   onChangeText={(e) => this.onValueChange(e, 'name')}
                 />
@@ -157,7 +157,7 @@ class Find_Doctor extends Component {
                 <Text style={textInputStyle.primaryTextInputFontStyle}>{en.doctorSearchLabel.locationLabel}</Text>
                 <TextInput style={textInputStyle.primaryTextInput}
                     //editable={false} 
-                    placeholder="Kolkata"
+                   // placeholder="Kolkata"
                     value = { searchDetails.pincode }
                     onChangeText={(e) => this.onValueChange(e, 'pincode')}
                     />
@@ -246,6 +246,7 @@ class Find_Doctor extends Component {
                             }
                         </ScrollView>
                     </View>
+                    <Footer navigation={this.props.navigation} />
                 </View>         
 
 

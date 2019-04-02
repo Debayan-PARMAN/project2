@@ -10,6 +10,8 @@ import { CheckBox } from 'react-native-elements';
 import GroupDetailsStyle from '../../styelsheets/GroupDetailsStyle';
 import ChamberStyle from '../../styelsheets/ChamberStyle';
 import ButtonComponent from '../../components/Button/ButtonComponent';
+import Header_Blank from '../../components/Header/Header_Blank';
+import Footer from '../../components/Footer/Footer';
 
 class Schedule extends Component {
 
@@ -159,21 +161,21 @@ class Schedule extends Component {
 
                 <ButtonComponent
                     buttonLabel='Book'
-                    buttonFunction={() => this.props.navigation.navigate('ChamberDetails')}
+                    buttonFunction={() => this.props.navigation.navigate('')}
                     buttonType='type2'
                     buttonStyle={[buttonStyle.secondaryBtnStyle, buttonStyle.btnSizeStyle7]}
                     buttonTextStyle={[buttonStyle.secondaryBtnText]} />
 
                 <ButtonComponent
                     buttonLabel='Next'
-                    buttonFunction={() => this.props.navigation.navigate('ChamberDetails')}
+                    buttonFunction={() => this.props.navigation.navigate('')}
                     buttonType='type2'
                     buttonStyle={[buttonStyle.secondaryBtnStyle, buttonStyle.btnSizeStyle7]}
                     buttonTextStyle={[buttonStyle.secondaryBtnText]} />
 
                 <ButtonComponent
                     buttonLabel='Save'
-                    buttonFunction={() => this.props.navigation.navigate('ChamberDetails')}
+                    buttonFunction={() => this.props.navigation.navigate('')}
                     buttonType='type1'
                     buttonStyle={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle7]}
                     buttonTextStyle={[buttonStyle.primaryBtnText]} />
@@ -183,7 +185,7 @@ class Schedule extends Component {
         );
 
 
-        return (
+        return (<View style={{ flex: 1 }}>
             <KeyboardAvoidingView style={ChamberStyle.mainWrapper} behavior="position">
                 <ScrollView>
                     { addBTN }
@@ -193,6 +195,8 @@ class Schedule extends Component {
                     { BTNArea }
                 </ScrollView>
            </KeyboardAvoidingView> 
+            <Footer navigation={this.props.navigation} />
+            </View >
         );
     }
 }

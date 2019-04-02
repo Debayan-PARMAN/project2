@@ -1,8 +1,12 @@
-import {
-    StyleSheet
-} from 'react-native';
+import {StyleSheet} from 'react-native';
+import styleConstants from '../constants/styleConstants';
+
 
 export const DoctorCardStyle = StyleSheet.create({
+    mainWrapper:{
+        flex: 1,
+        padding:5   
+    },
     mainContainer: {
         flex: 1,
     },
@@ -48,25 +52,30 @@ export const DoctorCardStyle = StyleSheet.create({
          flex: 0.5,
     },
     doctorName: {
-        fontWeight: 'bold',
-        fontSize: 14,
-        color: '#ad4274',
+        fontWeight: styleConstants.fontStyles.fontWeight,     
+        fontFamily: styleConstants.fontStyles.fontFamily,
+        fontSize: styleConstants.fontStyles.bodyFontSize2,
+        color: styleConstants.fontStyles.fontColor1,
+    },
+    doctorDescription: {
+        //fontWeight: styleConstants.fontStyles.fontWeight,
+        fontFamily: styleConstants.fontStyles.fontFamily,
+        fontSize: styleConstants.fontStyles.bodyFontSize3,
+        color: styleConstants.fontStyles.fontColor,
     },
     fontStyle: {
         fontWeight: 'bold',
-    },
+    },    
     fontAll: {
-        fontSize: 12,
-        color: '#808080',
+        fontSize: styleConstants.fontStyles.bodyFontSize4,
+        color: styleConstants.fontStyles.fontColor2,
+        fontFamily: styleConstants.fontStyles.fontFamily,
     },
+    // margin2: {
+    //     marginBottom: 2,
+    // },   
     margin2: {
-        marginBottom: 2,
-    },
-    fontStyle: {
-        fontWeight: 'bold',
-    },
-    margin2: {
-        marginBottom: 10,
+        marginTop: 10,
     },
     rightAngleContainer: {
         //backgroundColor:'green', 
@@ -96,7 +105,7 @@ export const DoctorCardStyle = StyleSheet.create({
         width: 25,
     },
     height1: {
-        height: 120,
+        height: 80,
     },
     textContainer: {
         flex: 1,
@@ -146,8 +155,9 @@ export const DoctorCardStyle = StyleSheet.create({
     },
     margin1: {
         marginLeft: 5,
-        fontSize: 12,
-        color: '#808080',
+        fontSize: styleConstants.fontStyles.bodyFontSize4,
+        color: styleConstants.fontStyles.fontColor2,
+        fontFamily:styleConstants.fontStyles.fontFamily,
     },
     reviewImageContainer: {
         flex: 0.7,

@@ -77,7 +77,7 @@ export function getDoctorDetails(){
         const { doctorDetails } = getState().doctorState;
         const { userDetails } = getState().userState;
         //console.log(doctorPk);
-        const doctorParams = userDetails.masterId;
+        const doctorParams = userDetails.drProfilePk;
         //const doctorParams = "211";
         console.log(doctorParams);
         const tokenValue = userDetails.token;
@@ -86,7 +86,7 @@ export function getDoctorDetails(){
             type: DOCTOR_TYPE.GET_DOCTOR_DETAILS
         });
         
-        doGet(`${URI.getDoctorDetails}${doctorParams}`,needToken=true, tokenValue)
+        doGet(`${URI.findDoctorbyId}${doctorParams}`,needToken=true, tokenValue)
             .then(result => dispatch(getDoctorDetailsSuccess(result)))
             .catch(error => dispatch(getDoctorDetailsFailure(error)));
     };
@@ -94,7 +94,7 @@ export function getDoctorDetails(){
 
 export function getDoctorDetailsSuccess(payload) {    
     payload.yearsOfExperience = payload.yearsOfExperience.toString();
-   // console.log(payload);
+//    console.log(payload);
     return {
         type: DOCTOR_TYPE.GET_DOCTOR_DETAILS_SUCCESS,
         payload,
@@ -129,7 +129,7 @@ export function updateApponitmentDetails() {
             "appointmentDateStr": AppointmentDetails.appointmentDate,
            };
 
-        //console.log("apppointmentParams ", apppointmentParams);
+       // console.log("apppointmentParams ", apppointmentParams);
         dispatch({
             type: DOCTOR_TYPE.UPDATE_APPOINTMENT_DETAILS
         });

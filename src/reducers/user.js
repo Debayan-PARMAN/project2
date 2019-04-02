@@ -65,6 +65,7 @@ const initialState = {
   },
 
   userDetails: {
+    drProfilePk:'',
     masterId: '',
     userId: '',
     registrationProvider: "SBIS",
@@ -175,6 +176,7 @@ const handlers = {
       userDetails.masterId = action.payload.userId;
       userDetails.userId = action.payload.inUserProfilePk;
       userDetails.username = action.payload.username;
+      userDetails.drProfilePk = action.payload.drProfilePk;
       loggedIn=true;
     } else {
       failureMessage = action.payload.message;

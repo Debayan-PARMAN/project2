@@ -8,6 +8,8 @@ import { getStates } from '../../actions/common';
 import { Modal,View, Text, Image, TouchableOpacity,TouchableHighlight, TextInput, ScrollView, CheckBox,StyleSheet} from 'react-native';
 import imageConstantURI from '../../constants/imageConst';
 import en from '../../messages/en-us';
+import Header_Blank from '../../components/Header/Header_Blank';
+import Footer from '../../components/Footer/Footer';
 
 class LifeStyle extends Component {
    static navigationOptions = {

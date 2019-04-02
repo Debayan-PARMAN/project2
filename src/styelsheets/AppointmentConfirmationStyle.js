@@ -116,7 +116,7 @@ export const AppointmentConfirmationStyle = StyleSheet.create({
     buttonContainer: {
         flex: 1, 
         height: 40, 
-        marginTop: 20, 
+        marginTop: 5, 
         flexDirection: 'row',
         justifyContent:'space-evenly'
     },

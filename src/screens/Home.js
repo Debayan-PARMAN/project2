@@ -76,10 +76,12 @@ class Home_Screen extends Component {
       />
     ),   
     headerTintColor: '#fff',
-    headerTitleStyle: {
-      paddingLeft: 50,
-      alignItems:'center',
+    headerTitleStyle: {    
+    
+      textAlign: "center",
       justifyContent: 'center',
+      flex: 1,
+
     },
     headerLeft: (<Header_Component_Menu />),
     headerRight: (<Header_SearchButton />)
@@ -110,7 +112,7 @@ class Home_Screen extends Component {
                   colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }} >                
-                 <Text style={[buttonStyle.primaryBtnText]}>{en.groupLabels.updateBtnLabel} {en.homeLabels.profileLabel}</Text>
+                 <Text style={[buttonStyle.primaryBtnText]}>{en.groupLabels.updateBtnLabel}</Text>
                   </LinearGradient>
                 </View>
               </TouchableOpacity>
@@ -176,7 +178,7 @@ class Home_Screen extends Component {
                 </TouchableOpacity>
               </View>
               <View style={HomeStyles.ser_parent} >
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('MyAppointment')} >
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('ChamberAddress')} >
                   <Image style={HomeStyles.ser_icon}
                     source={imageConstantURI.calender.src} />
                
@@ -189,7 +191,7 @@ class Home_Screen extends Component {
 
            <View style={HomeStyles.ser_subContainer}>
               <View style={HomeStyles.ser_parent} >
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('UserProfile')} >
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('')} >
                   <Image style={HomeStyles.ser_icon}
                    source={imageConstantURI.pill.src} />                
                 {/* <Text style={HomeStyles.ser_text}>
@@ -198,7 +200,7 @@ class Home_Screen extends Component {
                   </TouchableOpacity>
               </View>
               <View style={HomeStyles.ser_parent} >
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('ChamberAddress')} >
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('')} >
                   <Image style={HomeStyles.ser_icon}
                     source={imageConstantURI.medicalRecords.src} />                
                     {/* <Text style={HomeStyles.ser_text}>
@@ -210,7 +212,7 @@ class Home_Screen extends Component {
 
            <View style={HomeStyles.ser_subContainer}>
               <View style={HomeStyles.ser_parent} >
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('ChamberDetails')} >
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('')} >
                   <Image style={HomeStyles.ser_icon}
                     source={imageConstantURI.blood.src} />               
                 {/* <Text style={HomeStyles.ser_text}>
@@ -220,7 +222,7 @@ class Home_Screen extends Component {
               </View>
 
               <View style={HomeStyles.ser_parent} >
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Schedule')} >
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('')} >
                   <Image style={HomeStyles.ser_icon}
                     source={imageConstantURI.timeLeft.src} />
                   {/* <Text style={HomeStyles.ser_text}>
@@ -260,6 +262,7 @@ class Home_Screen extends Component {
         {/*--- Menu End ---*/}
 
         </ScrollView>
+        <Footer navigation={this.props.navigation} />
       </View>
     );
   }

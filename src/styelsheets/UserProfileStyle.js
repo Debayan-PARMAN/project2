@@ -10,14 +10,14 @@ export default UserProfileStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // backgroundColor: '#ccc',
-        height:80
+        height:75
     },
     welcomeText: {
         fontFamily: styleConstants.fontStyles.fontFamily,
         //fontSize: styleConstants.fontStyles.headerGroup.h2FontSize,
         color: styleConstants.fontStyles.headerGroup.headerColor,
         fontSize: 18,
-        padding:30,
+        padding:10,
         textAlign: 'center',
         justifyContent: 'center',
     },
@@ -26,17 +26,17 @@ export default UserProfileStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // backgroundColor: '#ccc',
-        height: 40
+        height: 30
     },
     ToServeText: {
         fontFamily: styleConstants.fontStyles.fontFamily,
         fontSize: 14,
         //fontSize: styleConstants.fontStyles.bodyFontSize,
         color: styleConstants.colorStyles.fontColor,
-        fontWeight:'bold',
-        padding: 10,
-        // textAlign: 'center',
-        justifyContent: 'center',
+        fontWeight:'bold',     
+        textAlign:'center',
+       
+       
     },
     EmailAgeBloodWeight: {
         flex: 1,

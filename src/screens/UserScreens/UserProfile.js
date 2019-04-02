@@ -12,12 +12,13 @@ import en from '../../messages/en-us';
 import { LinearGradient } from 'expo';
 import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
 import styleConstants from '../../constants/styleConstants';
-import { TextInputStyles } from '../../styelsheets/TextInputStyle';
+import Header_Blank from '../../components/Header/Header_Blank';
+import Footer from '../../components/Footer/Footer';
 
 class User_Profile extends Component {
 
     static navigationOptions = {
-        title: 'UserProfile',
+        title: 'USER PROFILE',
         headerBackground: (
             <LinearGradient
                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -28,11 +29,12 @@ class User_Profile extends Component {
         ),
         headerTintColor: '#fff',
         headerTitleStyle: {
-        fontWeight: 'bold',
-        paddingLeft: 50,
-            //justifyContent: 'center',
-            //alignItems: 'center',
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
+
         },
+        headerRight: (<Header_Blank />)
     };
     
     onSubmit = () => {
@@ -76,7 +78,7 @@ class User_Profile extends Component {
             <Text style={textInputStyle.primaryTextInputFontStyle}>{en.loginLabels.emailLabel}</Text>
             <TextInput
                 style={textInputStyle.primaryTextInput}
-                placeholder="Enter Email Here"
+               // placeholder="Enter Email Here"
                 onChangeText={(e) => this.onValueChange(e, 'emailAddress')}
                 value={userDetails.emailAddress}
             />
@@ -91,9 +93,9 @@ class User_Profile extends Component {
                     date={userDetails.dateOfBirth === '' ? new Date() : userDetails.dateOfBirth}
                     mode="date"
                     placeholder="select date"
-                    format="YYYY-MM-DD"
-                    minDate="1960-01-01"
-                    maxDate="2020-12-31"
+                    format="DD-MM-YYYY"
+                    minDate="01-01-1960"
+                    maxDate="31-12-2020"
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
@@ -125,7 +127,7 @@ class User_Profile extends Component {
                 <Text style={textInputStyle.primaryTextInputFontStyle}>{en.userScreensLabel.heightLabel}(cm)</Text>
                 <TextInput
                     style={textInputStyle.primaryTextInput}
-                    placeholder="Height"
+                   // placeholder="Height"
                     keyboardType="numeric"
                     onChangeText={(e) => this.onValueChange(e, 'height')}
                     value={userDetails.height}
@@ -133,7 +135,7 @@ class User_Profile extends Component {
             </View>
             <View style={UserProfileStyle.AgeBloodWeightHorizontalAlignment}>
                 <Text style={textInputStyle.primaryTextInputFontStyle}>{en.userScreensLabel.bloodGroupLabel}</Text>
-                <View style={UserProfileStyle.AgeBloodWeightTextInput} >
+                <View style={[UserProfileStyle.AgeBloodWeightTextInput,{borderColor:'#fff'}]} >
                     {/* <TextInput
                         style={UserProfileStyle.AgeBloodWeightTextInput}
                         placeholder="bloodGroup"                       
@@ -156,7 +158,7 @@ class User_Profile extends Component {
                 <KeyboardAvoidingView behavior="padding" enabled>
                     <TextInput
                         style={textInputStyle.primaryTextInput}
-                        placeholder="Weight"
+                        //placeholder="Weight"
                         keyboardType="numeric"
                         onChangeText={(e) => this.onValueChange(e, 'weight')}
                         value={userDetails.weight}
@@ -187,9 +189,10 @@ class User_Profile extends Component {
         </View>);
         
         return (
-            <View style={UserProfileStyle.mainWrapper}>
-            <View >
-                <ScrollView>
+            <View style={{ flex: 1 }}>
+                <View style={UserProfileStyle.mainWrapper}>
+                    <View >
+                        <ScrollView>
                         <KeyboardAvoidingView behavior="position">
                         {welcomeHeading}
                         {staticMessageArea}
@@ -209,9 +212,13 @@ class User_Profile extends Component {
                                </TouchableOpacity>
                          </View>
                   </KeyboardAvoidingView>       
-                </ScrollView>
+                        </ScrollView>
+                    </View>
+
+                </View>
+                <Footer navigation={this.props.navigation} />
             </View>
-         </View>
+        
         );
     }
 };

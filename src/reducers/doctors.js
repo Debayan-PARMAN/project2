@@ -212,8 +212,8 @@ const handlers = {
             mobileNo2: action.payload.mobileNo2,
             mobileNo3: action.payload.mobileNo3,
             emailId: action.payload.emailId,
-            doctorQualificationList: action.payload.doctorQualificationList,
-            doctorSpecializationList: action.payload.doctorSpecializationList,
+            doctorQualificationList: action.payload.doctorQualifications,
+            doctorSpecializationList: action.payload.doctorSpecializations,
             doctorEAddressList: action.payload.doctorEAddressList,
             rating: action.payload.rating,
             entityName: action.payload.entityName,
@@ -243,7 +243,7 @@ const handlers = {
     };
 },
     [DOCTOR_TYPE.UPDATE_APPOINTMENT_DETAILS_SUCCESS]: (state, action) => {
-        console.log("Getting DATA:  ", action.payload);
+        //console.log("Getting DATA:  ", action.payload);
 
         const AppointmentDetails = action.payload.data;
             // "appointmentPk": action.payload.data.appointmentPk,
@@ -362,7 +362,7 @@ const handlers = {
         };
     },
     [DOCTOR_TYPE.GET_CHAMBER_LIST_SUCCESS]: (state, action) => {
-        console.log("Getting Chamber list:  ", action.payload);
+       // console.log("Getting Chamber list:  ", action.payload);
         const doctorChamberList = action.payload;
         return {
             doctorChamberList,

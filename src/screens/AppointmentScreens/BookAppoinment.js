@@ -15,6 +15,8 @@ import { LinearGradient } from 'expo';
 import { buttonStyle, textInputStyle } from '../../styelsheets/CommonStyle';
 import styleConstants from '../../constants/styleConstants';
 import en from '../../messages/en-us';
+import Footer from '../../components/Footer/Footer';
+import Header_Blank from '../../components/Header/Header_Blank';
 
 class Book_Appoinment extends Component {
     getDoctorQualification = (doctorData) => {
@@ -22,7 +24,7 @@ class Book_Appoinment extends Component {
     }
 
     static navigationOptions = {
-        title: 'Book Appoinment',
+        title: 'BOOK APPOINTMENT',
         headerBackground: (
             <LinearGradient
                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -33,11 +35,12 @@ class Book_Appoinment extends Component {
         ),
         headerTintColor: '#fff',
         headerTitleStyle: {
-            fontWeight: 'bold',
-            paddingLeft: 40,
-            //alignItems:'center',
+            textAlign: "center",
+            justifyContent: 'space-around',
+            flex: 1
 
         },
+        headerRight: (<Header_Blank />)
     };
 
     onToggle = () => {
@@ -55,8 +58,9 @@ class Book_Appoinment extends Component {
         const { doctorDetails, chamberDetails, AppointmentDetails } = this.props.doctorState;
         //console.log("chamber/............:",chamberDetails);
         return (
-            <View style={BookAppointmentStyle.mainWrapper}>
-                <ScrollView>
+
+            <View style={{flex:1}}>
+                <ScrollView style={BookAppointmentStyle.mainWrapper}>
                     <KeyboardAvoidingView behavior='position' >
                         <Status_Indicator />
                         <View style={CardStyle.mainContainer}>
@@ -102,7 +106,7 @@ class Book_Appoinment extends Component {
                             
                             <View style={BookAppointmentStyle.TextInputContainer}>
                                 <TextInput style={textInputStyle.primaryTextInput}
-                                    placeholder="Patient name"
+                                    //placeholder="Patient name"
                                 //value={userDetails.username}
                                 //onChangeText={(e) => this.onValueChange(e, 'username')} 
                                 />
@@ -110,7 +114,7 @@ class Book_Appoinment extends Component {
                             <View style={BookAppointmentStyle.TextInputContainer}>
                                 <Text style={textInputStyle.primaryTextInputFontStyle}>{en.loginLabels.emailLabel}</Text>
                                     <TextInput style={textInputStyle.primaryTextInput}
-                                    placeholder="Patient email address"
+                                   // placeholder="Patient email address"
                                 //value={userDetails.username}
                                 //onChangeText={(e) => this.onValueChange(e, 'username')} 
                                 />
@@ -118,7 +122,7 @@ class Book_Appoinment extends Component {
                             <View style={BookAppointmentStyle.TextInputContainer}>
                                 <Text style={textInputStyle.primaryTextInputFontStyle}>{en.loginLabels.mobileNumberLabel}</Text>
                                 <TextInput style={[textInputStyle.primaryTextInput, { width: 200 }]}
-                                    placeholder="Patient Mobile number"
+                                   // placeholder="Patient Mobile number"
                                 //value={userDetails.username}
                                 //onChangeText={(e) => this.onValueChange(e, 'username')} 
                                 />
@@ -126,12 +130,12 @@ class Book_Appoinment extends Component {
                             <View style={BookAppointmentStyle.TextInputContainer}>
                                 <Text style={textInputStyle.primaryTextInputFontStyle}>{en.appointmentScreens.ageLabel}</Text>
                                 <TextInput style={[textInputStyle.primaryTextInput, { width: 130 } ]}
-                                    placeholder="Approx age"
+                                    //placeholder="Approx age"
                                     //value={userDetails.username}
                                     //onChangeText={(e) => this.onValueChange(e, 'username')}
                                     />                                     
                             </View>                         
-                            <Text style={BookAppointmentStyle.GenderName}>{en.appointmentScreens.genderLabel}</Text>
+                            <Text style={textInputStyle.primaryTextInputFontStyle}>{en.appointmentScreens.genderLabel}</Text>
                             <View style={BookAppointmentStyle.genderBtnContainer}>
                                 <TouchableOpacity
                                     style={[buttonStyle.secondaryBtnStyle, buttonStyle.btnSizeStyle4]}
@@ -156,8 +160,7 @@ class Book_Appoinment extends Component {
                     </KeyboardAvoidingView>
 
                     <View style={BookAppointmentStyle.btnContainer}>
-                        <TouchableOpacity onPress={this.onToggle}>
-                        {/* onPress={this.props.onSubmit} */}                       
+                        <TouchableOpacity onPress={this.onToggle}>                    
                             <LinearGradient
                                 style={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle6,]}
                                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -166,20 +169,9 @@ class Book_Appoinment extends Component {
                                 <Text style={[buttonStyle.primaryBtnText]}>Next</Text>
                             </LinearGradient>
                         </TouchableOpacity> 
-                    </View>
-                {/* <View style={[LoginStyles.button,{marginTop:30}]}>               
-                    <View style={{ flex: 1, }}>
-                        <Button onPress={ this.onToggle}
-                        style={FontStyles.font}
-                        //onPress={this.props.onSubmit}
-                        title="Next"
-                        color = "#743894"
-                        width="10"
-                    />
-                </View>
-               
-            </View>                    */}
+                    </View>               
          </ScrollView>
+                <Footer navigation={this.props.navigation} />
         </View>
         );
     }

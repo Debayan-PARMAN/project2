@@ -12,10 +12,12 @@ import AddAddressStyle from '../../styelsheets/AddAddressStyle';
 import Drop_Down from '../../components/DropDown';
 import en from '../../messages/en-us';
 import ButtonComponent from '../../components/Button/ButtonComponent';
+import Header_Blank from '../../components/Header/Header_Blank';
+import Footer from '../../components/Footer/Footer';
 
 class AddAddress extends Component {
     static navigationOptions = {
-        title: 'AddAddress',
+        title: 'ADD ADDRESS',
         headerBackground: (
             <LinearGradient
                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -26,11 +28,12 @@ class AddAddress extends Component {
         ),
         headerTintColor: '#fff',
         headerTitleStyle: {
-            // fontWeight: 'bold',
-            paddingLeft: 50,
-            //justifyContent: 'center',
-            //alignItems: 'center',
+            textAlign: "center",
+            justifyContent:'space-around', 
+            flex:1         
+
         },
+        headerRight: (<Header_Blank />)      
     };
 
     onNavigate = () => {
@@ -116,14 +119,15 @@ class AddAddress extends Component {
 
 
         const customAddressArea = (
-           
+            <View>
+                <Text style={[textInputStyle.primaryTextInputFontStyle, {marginTop:6}]}>Provide Address Type</Text>
                 <TextInput
-                    style={[textInputStyle.primaryTextInput, {marginTop:10}]}
-                    placeholder="Provide Address Type"
+                    style={textInputStyle.primaryTextInput}
+                    //placeholder="Provide Address Type"
                     value={doctorDetails.addressDetails.addressType}
                     onChangeText={(e) => this.onValueChange(e, 'addressType')}
                 />
-           
+           </View>
         );
 
         const selectCountryArea = (
@@ -149,6 +153,7 @@ class AddAddress extends Component {
 
         const selectStateArea = (
             <View >
+                 <Text style={[textInputStyle.primaryTextInputFontStyle, {marginTop:6}]}>State</Text>
                 {/* <Drop_Down
                     selectedData='selectedState'
                     selectedValue={doctorDetails.selectedStates}
@@ -159,8 +164,8 @@ class AddAddress extends Component {
                     optionValue='stateCode'
                 /> */}
                  <TextInput
-                    style={[textInputStyle.primaryTextInput, {marginTop:10}]}
-                    placeholder="State"                
+                    style={textInputStyle.primaryTextInput}
+                   // placeholder="State"              
                    
                     value={doctorDetails.addressDetails.state}
                     onChangeText={(e) => this.onValueChange(e, 'state')}
@@ -168,40 +173,51 @@ class AddAddress extends Component {
             </View>
         );
         const pinCode = (
-           
+            <View>
+                <Text style={[textInputStyle.primaryTextInputFontStyle, {marginTop:6}]}>6 digit 0-9 pin code</Text>
                  <TextInput
-                    style={[textInputStyle.primaryTextInput, {marginTop:10}]}
-                    placeholder="6 digit 0-9 pin code"
+                    style={textInputStyle.primaryTextInput}
+                   // placeholder="6 digit 0-9 pin code"
                     keyboardType="numeric"
                     value={doctorDetails.addressDetails.pinCode}
                     onChangeText={(e) => this.onValueChange(e, 'pinCode')}
                 />
-            
+            </View>
         );
 
         const flatHouse = (
-                    <TextInput
-                    style={[textInputStyle.primaryTextInput, {marginTop:10}]}
-                    placeholder="Flat/House/Floor/Building"
+             <View>
+                <Text style={[textInputStyle.primaryTextInputFontStyle, {marginTop:6}]}>Flat/House/Floor/Building</Text>
+                <TextInput
+                    style={textInputStyle.primaryTextInput}
+                   // placeholder="Flat/House/Floor/Building"
                     value={doctorDetails.addressDetails.line1}
                     onChangeText={(e) => this.onValueChange(e, 'line1')}
                 />
+                 </View>
                     );
         const landmark = (
+            <View>
+                <Text style={[textInputStyle.primaryTextInputFontStyle, {marginTop:6}]}>Landmark</Text>
             <TextInput
-                style={[textInputStyle.primaryTextInput, { marginTop: 10 }]}
-                placeholder="Landmark"
+                    style={textInputStyle.primaryTextInput}
+               // placeholder="Landmark"
                 value={doctorDetails.addressDetails.line2}
                 onChangeText={(e) => this.onValueChange(e, 'line2')}
             />
+             </View>
                );
         const city = (
+             <View>
+                <Text style={[textInputStyle.primaryTextInputFontStyle, {marginTop:6}]}>City</Text>
+                       
                 <TextInput
-                    style={[textInputStyle.primaryTextInput, {marginTop:10}]}
-                    placeholder="City"
+                    style={textInputStyle.primaryTextInput}
+                   // placeholder="City"
                     value={doctorDetails.addressDetails.city}
                     onChangeText={(e) => this.onValueChange(e, 'city')}
-                />
+               />
+               </View>
                    );
         const addressBtn = (
             <View style={AddAddressStyle.btnContainer}>               
@@ -215,7 +231,7 @@ class AddAddress extends Component {
             </View>
         );
 
-        return (
+        return (<View style = {{flex:1}}>
             <View style={AddAddressStyle.mainWrapper}>
                 <ScrollView>                   
                     <KeyboardAvoidingView behavior="position">
@@ -229,7 +245,9 @@ class AddAddress extends Component {
                                     { selectStateArea }
                                     { addressBtn }                              
                        </KeyboardAvoidingView>
-                </ScrollView>                  
+                </ScrollView> 
+                 </View>
+            <Footer navigation={this.props.navigation} />                            
             </View>
         );
     }

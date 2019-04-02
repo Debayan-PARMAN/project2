@@ -11,12 +11,14 @@ import { CheckBox } from 'react-native-elements';
 import GroupDetailsStyle from '../../styelsheets/GroupDetailsStyle';
 import ChamberStyle from '../../styelsheets/ChamberStyle';
 import ButtonComponent from '../../components/Button/ButtonComponent';
+import Header_Blank from '../../components/Header/Header_Blank';
+import Footer from '../../components/Footer/Footer';
 
 class ChamberDetails extends Component {
 
     
     static navigationOptions = {
-        title: 'CHAMBERDETAILS',
+        title: 'CHAMBER DETAILS',
         headerBackground: (
             <LinearGradient
                 colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
@@ -144,21 +146,21 @@ class ChamberDetails extends Component {
                    
                     <ButtonComponent
                         buttonLabel='Book'
-                        buttonFunction={() => this.props.navigation.navigate('ChamberDetails')}
+                        buttonFunction={() => this.props.navigation.navigate('')}
                         buttonType='type2'
                         buttonStyle={[buttonStyle.secondaryBtnStyle, buttonStyle.btnSizeStyle7]}
                         buttonTextStyle={[buttonStyle.secondaryBtnText]} />
               
                     <ButtonComponent
                         buttonLabel='Next'
-                        buttonFunction={() => this.props.navigation.navigate('ChamberDetails')}
+                        buttonFunction={() => this.props.navigation.navigate('Schedule')}
                         buttonType='type2'
                         buttonStyle={[buttonStyle.secondaryBtnStyle, buttonStyle.btnSizeStyle7]}
                         buttonTextStyle={[buttonStyle.secondaryBtnText]} />              
                     
                 <ButtonComponent
                     buttonLabel='Save'
-                    buttonFunction={() => this.props.navigation.navigate('ChamberDetails')}
+                    buttonFunction={() => this.props.navigation.navigate('')}
                     buttonType='type1'
                     buttonStyle={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle7]}
                     buttonTextStyle={[buttonStyle.primaryBtnText]} />
@@ -167,7 +169,7 @@ class ChamberDetails extends Component {
             </View>
         );
 
-        return (
+        return (<View style={{ flex: 1 }}>
             <KeyboardAvoidingView style={ChamberStyle.mainWrapper} behavior="position">
            
                 <ScrollView>
@@ -180,6 +182,8 @@ class ChamberDetails extends Component {
                     { BTNArea }
                 </ScrollView>   
             </KeyboardAvoidingView>
+            <Footer navigation={this.props.navigation} />
+            </View >
         );
     }
 }

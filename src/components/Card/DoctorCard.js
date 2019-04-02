@@ -17,13 +17,15 @@ import imageConstantURI from '../../constants/imageConst';
 // import { LoginStyles, FontStyles, Button_fb_google } from '../styelsheets/MainStyle';
 import { LoginStyles, FontStyles } from '../../styelsheets/MainStyle';
 import en from '../../messages/en-us';
+import { buttonStyle,} from '../../styelsheets/CommonStyle';
+import styleConstants from '../../constants/styleConstants';
+import { LinearGradient } from 'expo';
+import { DoctorCardStyle } from '../../styelsheets/DoctorCardStyle';
 
 export default class Doctor_Card extends Component {
     render() {
 
         const { chamberDetails } = this.props;
-
-        //console.log("Chember List : ",chamberDetails);
 
         const addressArea = (
             <View style={{ paddingBottom: 10 }}>
@@ -32,14 +34,14 @@ export default class Doctor_Card extends Component {
                         <Image style={{ height: 15, width: 15, }} source={imageConstantURI.defaultPlaceHolder.src} />
                     </View>
                     <View style={{ flex: 1 }}>
-                        <Text style={{ fontSize: 15 }}>{chamberDetails.line1}, {chamberDetails.line2}</Text>
+                         <Text style={DoctorCardStyle.doctorDescription}>{chamberDetails.line1}, {chamberDetails.line2}</Text>
                     </View>
                 </View>
                 <View>
-                    <Text>{chamberDetails.city}, {chamberDetails.state}, {chamberDetails.city}, {chamberDetails.pinCode}</Text>
+                    <Text style={DoctorCardStyle.doctorDescription}>{chamberDetails.city}, {chamberDetails.state}, {chamberDetails.city}, {chamberDetails.pinCode}</Text>
                 </View>
                 <View>
-                    <Text style={{ fontSize: 15 }}>{en.doctorSearchLabel.rsLabel} {chamberDetails.fees}</Text>
+                     <Text style={DoctorCardStyle.doctorDescription}>{en.doctorSearchLabel.rsLabel} {chamberDetails.fees}</Text>
                 </View>
             </View>
         );
@@ -48,10 +50,10 @@ export default class Doctor_Card extends Component {
             <View>
                 <View style={[CardStyle.secondContainer, { paddingTop: 7, paddingBottom: 7, }]}>
                     <View style={CardStyle.flex}>
-                        <Text>{en.doctorSearchLabel.morningLabel}</Text>
+                         <Text style={DoctorCardStyle.doctorDescription}>{en.doctorSearchLabel.morningLabel}</Text>
                     </View>
                     <View style={CardStyle.flex}>
-                        <Text style={CardStyle.slotStyle}>{en.doctorSearchLabel.slotsLabel}</Text>
+                        <Text style={[DoctorCardStyle.doctorDescription, {textAlign:'right'}]}>{en.doctorSearchLabel.slotsLabel}</Text>
                     </View>
                 </View>
                 <ScrollView horizontal>
@@ -68,19 +70,15 @@ export default class Doctor_Card extends Component {
             <Card container style={CardStyle}>
                 {addressArea}
                 <View style={LoginStyles.button}>
-                    <View style={{ flex: 0.2, }}>
-                    </View>
-                    <View style={{ flex: 1, }}>
-                        <Button onPress={(e) => this.props.selectedChamber(chamberDetails)}
-                            style={FontStyles.font}
-                            //onPress={this.props.onSubmit}
-                            title="Book Appointment"
-                            color="#743894"
-                            width="10"
-                        />
-                    </View>
-                    <View style={{ flex: 0.2, }}>
-                    </View>
+                    <TouchableOpacity onPress={(e) => this.props.selectedChamber(chamberDetails)}>
+                        <LinearGradient
+                            style={[buttonStyle.primaryBtnStyle, buttonStyle.btnSizeStyle6]}
+                            colors={[styleConstants.colorStyles.primaryGradientColor, styleConstants.colorStyles.secondaryGradientColor]}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }} >
+                            <Text style={[buttonStyle.primaryBtnText]}>BOOK APPOINTMENT</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
                 </View>
                 {slotArea}
             </Card>
